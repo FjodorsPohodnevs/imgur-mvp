@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="home" />
+        <item
+            android:id="@+id/nav_about"
+            android:title="about" />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="settings" />
+
+        <item
+            android:id="@+id/navigation_subheader"
+            android:title="sub header">
+            <menu>
+                <item
+                    android:id="@+id/navigation_sub_item_1"
+                    android:title="sub item 1" />
+                <item
+                    android:id="@+id/navigation_sub_item_2"
+                    android:title="sub item 2" />
+            </menu>
+        </item>
+    </group>
+</menu>
