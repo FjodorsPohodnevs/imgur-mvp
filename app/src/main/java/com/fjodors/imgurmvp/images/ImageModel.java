@@ -1,17 +1,18 @@
-package com.fjodors.imgurmvp;
+package com.fjodors.imgurmvp.images;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImgurGalleryImage {
+public class ImageModel {
 
     public List<Data> data;
     public boolean success;
     public int status;
 
-    public static class Data {
+    public static class Data implements Serializable {
         public String id;
         public String title;
         public Object description;
