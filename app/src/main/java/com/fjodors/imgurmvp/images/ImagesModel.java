@@ -1,13 +1,14 @@
 package com.fjodors.imgurmvp.images;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * Created by fjodors.pohodnevs on 8/12/2016.
+ * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImageModel {
+public class ImagesModel {
 
-    public Data data;
+    public List<Data> data;
     public boolean success;
     public int status;
 
@@ -33,6 +34,7 @@ public class ImageModel {
         public int points;
         public long score;
         public boolean isAlbum;
+        public String link;
 
         public String getId() {
             return id;
@@ -201,13 +203,21 @@ public class ImageModel {
         public void setAlbum(boolean album) {
             isAlbum = album;
         }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
+        }
     }
 
-    public Data getData() {
+    public List<Data> getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(List<Data> data) {
         this.data = data;
     }
 }

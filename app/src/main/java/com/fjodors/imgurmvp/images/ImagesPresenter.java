@@ -21,16 +21,16 @@ public class ImagesPresenter implements ImagesContract.Presenter {
         ImagesApiInterface apiService =
                 ImagesClient.getClient().create(ImagesApiInterface.class);
 
-        Call<ImageModel> call = apiService.getRandomGallery();
-        call.enqueue(new Callback<ImageModel>() {
+        Call<ImagesModel> call = apiService.getRandomGallery();
+        call.enqueue(new Callback<ImagesModel>() {
             @Override
-            public void onResponse(Call<ImageModel> call, Response<ImageModel> response) {
+            public void onResponse(Call<ImagesModel> call, Response<ImagesModel> response) {
                 imagesView.showGallery(response.body());
                 imagesView.hideProgress();
             }
 
             @Override
-            public void onFailure(Call<ImageModel> call, Throwable t) {
+            public void onFailure(Call<ImagesModel> call, Throwable t) {
                 imagesView.showError();
                 imagesView.hideProgress();
             }

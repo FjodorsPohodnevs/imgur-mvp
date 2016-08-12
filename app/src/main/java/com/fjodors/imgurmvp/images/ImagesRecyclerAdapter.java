@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
  */
 public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAdapter.ImgurViewHolder> {
 
-    private ImageModel imageModel;
+    private ImagesModel imagesModel;
     private Context context;
     private ItemClickListener itemClickListener;
 
@@ -41,7 +41,8 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
     @Override
     public void onBindViewHolder(final ImgurViewHolder holder, final int position) {
         Picasso.with(context)
-                .load("http://i.imgur.com/" + imageModel.getData().get(position).getId() + SMALL_SQUARE_IMAGE_THUMBNAIL + ".jpg")
+                .load(imagesModel.getData().get(position).getLink() + SMALL_SQUARE_IMAGE_THUMBNAIL)
+//                .load("http://i.imgur.com/" + imagesModel.getData().get(position).getId() + SMALL_SQUARE_IMAGE_THUMBNAIL + ".jpg")
                 .into(holder.imgurImg, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -53,43 +54,43 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
                         holder.progressBar.setVisibility(View.GONE);
                     }
                 });
-        holder.title.setText(imageModel.getData().get(position).getTitle());
-        holder.score.setText("SCORE: " + imageModel.getData().get(position).getScore());
+        holder.title.setText(imagesModel.getData().get(position).getTitle());
+        holder.score.setText("SCORE: " + imagesModel.getData().get(position).getScore());
 
         holder.imageItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListener.onItemClick(imageModel.getData().get(position));
+                itemClickListener.onItemClick(imagesModel.getData().get(position));
             }
         });
     }
 
-    public ImageModel getImageModel() {
-        return imageModel;
+    public ImagesModel getImagesModel() {
+        return imagesModel;
     }
 
-    public void setImageModel(ImageModel imageModelList) {
-        this.imageModel = imageModelList;
+    public void setImagesModel(ImagesModel imagesModelList) {
+        this.imagesModel = imagesModelList;
     }
 
     public void clear() {
-        if (imageModel != null && imageModel.getData() != null) {
-            imageModel.getData().clear();
+        if (imagesModel != null && imagesModel.getData() != null) {
+            imagesModel.getData().clear();
             notifyDataSetChanged();
         }
     }
 
     @Override
     public int getItemCount() {
-        if (imageModel != null && imageModel.getData() != null) {
-            return imageModel.data.size();
+        if (imagesModel != null && imagesModel.getData() != null) {
+            return imagesModel.data.size();
         } else {
             return 0;
         }
     }
 
     public interface ItemClickListener {
-        void onItemClick(ImageModel.Data image);
+        void onItemClick(ImagesModel.Data image);
     }
 
     public static class ImgurViewHolder extends RecyclerView.ViewHolder {

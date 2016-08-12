@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.images.ImageModel;
+import com.fjodors.imgurmvp.images.ImagesModel;
 import com.fjodors.imgurmvp.images.ImagesFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -33,14 +33,15 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
 
-        ImageModel.Data image = (ImageModel.Data) getArguments().getSerializable(ImagesFragment.IMAGE);
+        ImagesModel.Data image = (ImagesModel.Data) getArguments().getSerializable(ImagesFragment.IMAGE);
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         if (image != null) {
             Picasso.with(getActivity())
-                    .load("http://i.imgur.com/" + image.getId() + HUGE_IMAGE_THUMBNAIL + ".jpg")
+                    .load(image.getLink() + HUGE_IMAGE_THUMBNAIL)
+//                    .load("http://i.imgur.com/" + image.getId() + HUGE_IMAGE_THUMBNAIL + ".jpg")
                     .into(imageView, new Callback() {
                         @Override
                         public void onSuccess() {
