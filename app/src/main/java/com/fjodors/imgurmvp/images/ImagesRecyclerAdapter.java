@@ -7,19 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
 public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAdapter.ImgurViewHolder> {
 
-    private ImagesModel imagesModel;
+    private ImgurGalleryModel imgurGalleryModel;
     private Context context;
     private ItemClickListener itemClickListener;
 
@@ -40,57 +38,56 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
 
     @Override
     public void onBindViewHolder(final ImgurViewHolder holder, final int position) {
-        Picasso.with(context)
-                .load(imagesModel.getData().get(position).getLink() + SMALL_SQUARE_IMAGE_THUMBNAIL)
-//                .load("http://i.imgur.com/" + imagesModel.getData().get(position).getId() + SMALL_SQUARE_IMAGE_THUMBNAIL + ".jpg")
-                .into(holder.imgurImg, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holder.progressBar.setVisibility(View.GONE);
-                    }
 
-                    @Override
-                    public void onError() {
-                        holder.progressBar.setVisibility(View.GONE);
-                    }
-                });
-        holder.title.setText(imagesModel.getData().get(position).getTitle());
-        holder.score.setText("SCORE: " + imagesModel.getData().get(position).getScore());
+        String thumbnailUrl;
+        if (imgurGalleryModel.getData().get(position).getCover() != null) {
+            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getCover() + SMALL_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+        } else {
+            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getId() + SMALL_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+        }
+
+        Glide.with(context)
+                .load(thumbnailUrl)
+                .asBitmap()
+                .placeholder(R.mipmap.ic_launcher)
+                .into(holder.imgurImg);
+        holder.title.setText(imgurGalleryModel.getData().get(position).getTitle());
+        holder.score.setText("SCORE: " + imgurGalleryModel.getData().get(position).getScore());
 
         holder.imageItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListener.onItemClick(imagesModel.getData().get(position));
+                itemClickListener.onItemClick(imgurGalleryModel.getData().get(position));
             }
         });
     }
 
-    public ImagesModel getImagesModel() {
-        return imagesModel;
+    public ImgurGalleryModel getImgurGalleryModel() {
+        return imgurGalleryModel;
     }
 
-    public void setImagesModel(ImagesModel imagesModelList) {
-        this.imagesModel = imagesModelList;
+    public void setImgurGalleryModel(ImgurGalleryModel imgurGalleryModelList) {
+        this.imgurGalleryModel = imgurGalleryModelList;
     }
 
     public void clear() {
-        if (imagesModel != null && imagesModel.getData() != null) {
-            imagesModel.getData().clear();
+        if (imgurGalleryModel != null && imgurGalleryModel.getData() != null) {
+            imgurGalleryModel.getData().clear();
             notifyDataSetChanged();
         }
     }
 
     @Override
     public int getItemCount() {
-        if (imagesModel != null && imagesModel.getData() != null) {
-            return imagesModel.data.size();
+        if (imgurGalleryModel != null && imgurGalleryModel.getData() != null) {
+            return imgurGalleryModel.data.size();
         } else {
             return 0;
         }
     }
 
     public interface ItemClickListener {
-        void onItemClick(ImagesModel.Data image);
+        void onItemClick(ImgurGalleryModel.Data image);
     }
 
     public static class ImgurViewHolder extends RecyclerView.ViewHolder {
@@ -99,7 +96,6 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
         public TextView title;
         public TextView score;
         public LinearLayout imageItemLayout;
-        public ProgressBar progressBar;
 
         public ImgurViewHolder(View v) {
             super(v);
@@ -107,7 +103,6 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
             imgurImg = (ImageView) v.findViewById(R.id.imgur_img);
             title = (TextView) v.findViewById(R.id.title);
             score = (TextView) v.findViewById(R.id.score);
-            progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         }
     }
 }

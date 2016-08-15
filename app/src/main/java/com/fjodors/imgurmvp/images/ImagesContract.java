@@ -9,7 +9,7 @@ import com.fjodors.imgurmvp.BaseView;
 public interface ImagesContract {
 
     interface View extends BaseView<Presenter> {
-        void showGallery(ImagesModel imagesModel);
+        void showGallery(ImgurGalleryModel imgurGalleryModel);
 
         void showError();
         void showProgress();

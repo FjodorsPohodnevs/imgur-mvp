@@ -7,14 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.images.ImagesModel;
 import com.fjodors.imgurmvp.images.ImagesFragment;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.fjodors.imgurmvp.images.ImgurGalleryModel;
 
 /**
  * Created by fjodors.pohodnevs on 8/11/2016.
@@ -33,28 +30,23 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
 
-        ImagesModel.Data image = (ImagesModel.Data) getArguments().getSerializable(ImagesFragment.IMAGE);
+        ImgurGalleryModel.Data image = (ImgurGalleryModel.Data) getArguments().getSerializable(ImagesFragment.IMAGE);
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
+        String imageUrl = "";
         if (image != null) {
-            Picasso.with(getActivity())
-                    .load(image.getLink() + HUGE_IMAGE_THUMBNAIL)
-//                    .load("http://i.imgur.com/" + image.getId() + HUGE_IMAGE_THUMBNAIL + ".jpg")
-                    .into(imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            progressBar.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onError() {
-                            Toast.makeText(getActivity(), "FAILED TO LOAD IMAGE", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    });
+            if (image.getCover() != null) {
+                imageUrl = "http://i.imgur.com/" + image.getCover() + HUGE_IMAGE_THUMBNAIL + ".jpg";
+            } else {
+                imageUrl = image.getLink();
+            }
         }
+
+        Glide.with(getActivity())
+                .load(imageUrl)
+                .placeholder(R.mipmap.ic_launcher)
+                .into(imageView);
 
         return view;
     }

@@ -69,7 +69,7 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
 
         ImagesRecyclerAdapter.ItemClickListener itemClickListener = new ImagesRecyclerAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(ImagesModel.Data image) {
+            public void onItemClick(ImgurGalleryModel.Data image) {
                 Intent intent = new Intent(getActivity(), ImageDetailActivity.class);
                 intent.putExtra(IMAGE, image);
                 startActivity(intent);
@@ -86,9 +86,9 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
     }
 
     @Override
-    public void showGallery(ImagesModel imagesModel) {
+    public void showGallery(ImgurGalleryModel imgurGalleryModel) {
         imagesRecyclerAdapter.clear();
-        imagesRecyclerAdapter.setImagesModel(imagesModel);
+        imagesRecyclerAdapter.setImgurGalleryModel(imgurGalleryModel);
         imagesRecyclerAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
     }
