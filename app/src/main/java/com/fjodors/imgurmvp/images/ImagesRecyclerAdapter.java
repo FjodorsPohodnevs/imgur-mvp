@@ -21,7 +21,7 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
     private Context context;
     private ItemClickListener itemClickListener;
 
-    private static final String SMALL_SQUARE_IMAGE_THUMBNAIL = "s";
+    private static final String BIG_SQUARE_IMAGE_THUMBNAIL = "b";
 
     public ImagesRecyclerAdapter(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -41,9 +41,9 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
 
         String thumbnailUrl;
         if (imgurGalleryModel.getData().get(position).getCover() != null) {
-            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getCover() + SMALL_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
         } else {
-            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getId() + SMALL_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
         }
 
         Glide.with(context)

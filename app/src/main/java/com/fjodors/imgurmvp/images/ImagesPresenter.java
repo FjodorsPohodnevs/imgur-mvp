@@ -21,7 +21,10 @@ public class ImagesPresenter implements ImagesContract.Presenter {
         ImagesApiInterface apiService =
                 ImagesClient.getClient().create(ImagesApiInterface.class);
 
+        //TODO: change to observable
         Call<ImgurGalleryModel> call = apiService.getTopic("Rio_2016", "top", "1");
+
+        //TODO: Implement rxJava here
         call.enqueue(new Callback<ImgurGalleryModel>() {
             @Override
             public void onResponse(Call<ImgurGalleryModel> call, Response<ImgurGalleryModel> response) {

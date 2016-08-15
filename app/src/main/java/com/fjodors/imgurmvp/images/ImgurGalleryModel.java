@@ -1,5 +1,7 @@
 package com.fjodors.imgurmvp.images;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,9 +20,13 @@ public class ImgurGalleryModel {
         public Object description;
         public long datetime;
         public String cover;
+        @SerializedName("cover_width")
         public int coverWidth;
+        @SerializedName("cover_height")
         public int coverHeight;
+        @SerializedName("account_url")
         public String accountUrl;
+        @SerializedName("account_id")
         public int accountId;
         public String privacy;
         public String layout;
@@ -30,16 +36,22 @@ public class ImgurGalleryModel {
         public int downs;
         public int points;
         public int score;
+        @SerializedName("is_album")
         public boolean isAlbum;
         public Object vote;
         public boolean favorite;
         public boolean nsfw;
         public String section;
+        @SerializedName("comment_count")
         public int commentCount;
         public String topic;
+        @SerializedName("topic_id")
         public int topicId;
+        @SerializedName("images_count")
         public int imagesCount;
+        @SerializedName("in_gallery")
         public boolean inGallery;
+        @SerializedName("is_ad")
         public boolean isAd;
 
         public String getId() {

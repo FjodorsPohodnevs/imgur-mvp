@@ -10,15 +10,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.images.ImagesFragment;
-import com.fjodors.imgurmvp.images.ImgurGalleryModel;
 
 /**
  * Created by fjodors.pohodnevs on 8/11/2016.
  */
-public class ImageDetailFragment extends Fragment implements ImageDetailContract.view {
+public class ImageDetailFragment extends Fragment implements ImageDetailContract.View {
 
-    private static final String HUGE_IMAGE_THUMBNAIL = "h";
+    private ImageDetailContract.Presenter imageDetailPresenter;
+    private View view;
+
 
     public static ImageDetailFragment newInstace() {
         ImageDetailFragment imageDetailFragment = new ImageDetailFragment();
@@ -28,31 +28,25 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_image_detail, container, false);
 
-        ImgurGalleryModel.Data image = (ImgurGalleryModel.Data) getArguments().getSerializable(ImagesFragment.IMAGE);
-
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
-
-        String imageUrl = "";
-        if (image != null) {
-            if (image.getCover() != null) {
-                imageUrl = "http://i.imgur.com/" + image.getCover() + HUGE_IMAGE_THUMBNAIL + ".jpg";
-            } else {
-                imageUrl = image.getLink();
-            }
-        }
-
-        Glide.with(getActivity())
-                .load(imageUrl)
-                .placeholder(R.mipmap.ic_launcher)
-                .into(imageView);
+        imageDetailPresenter.getImageUrl(this);
 
         return view;
     }
 
+
     @Override
-    public void showImage() {
-        //TODO: move showing image code to here
+    public void showImage(String imageUrl) {
+        ImageView imageView = (ImageView) view.findViewById(R.id.image);
+        Glide.with(getActivity())
+                .load(imageUrl)
+//                .placeholder(R.mipmap.ic_launcher)
+                .into(imageView);
+    }
+
+    @Override
+    public void setPresenter(ImageDetailContract.Presenter presenter) {
+        imageDetailPresenter = presenter;
     }
 }
