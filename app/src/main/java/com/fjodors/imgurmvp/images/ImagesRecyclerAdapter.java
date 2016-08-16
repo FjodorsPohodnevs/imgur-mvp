@@ -11,13 +11,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
+import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
+
+import java.util.List;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
 public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAdapter.ImgurViewHolder> {
 
-    private ImgurGalleryModel imgurGalleryModel;
+    private List<ImgurBaseItemModel> imgurBaseItemModelList;
     private Context context;
     private ItemClickListener itemClickListener;
 
@@ -40,54 +43,56 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
     public void onBindViewHolder(final ImgurViewHolder holder, final int position) {
 
         String thumbnailUrl;
-        if (imgurGalleryModel.getData().get(position).getCover() != null) {
-            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
-        } else {
-            thumbnailUrl = "http://i.imgur.com/" + imgurGalleryModel.getData().get(position).getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
-        }
+        //TODO: uncomment and fix
+//        if (imgurBaseItemModelList.get(position).getCover() != null) {
+//            thumbnailUrl = "http://i.imgur.com/" + imgurBaseItemModelList.get(position).getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+//        } else {
+//            thumbnailUrl = "http://i.imgur.com/" + imgurBaseItemModelList.get(position).getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+//        }
+        thumbnailUrl = "http://i.imgur.com/" + imgurBaseItemModelList.get(position).getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
 
         Glide.with(context)
                 .load(thumbnailUrl)
                 .asBitmap()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(holder.imgurImg);
-        holder.title.setText(imgurGalleryModel.getData().get(position).getTitle());
-        holder.score.setText("SCORE: " + imgurGalleryModel.getData().get(position).getScore());
+        holder.title.setText(imgurBaseItemModelList.get(position).getTitle());
+        holder.score.setText("SCORE: " + imgurBaseItemModelList.get(position).getScore());
 
         holder.imageItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListener.onItemClick(imgurGalleryModel.getData().get(position));
+                itemClickListener.onItemClick(imgurBaseItemModelList.get(position));
             }
         });
     }
 
-    public ImgurGalleryModel getImgurGalleryModel() {
-        return imgurGalleryModel;
+    public List<ImgurBaseItemModel> getImgurBaseItemModelList() {
+        return imgurBaseItemModelList;
     }
 
-    public void setImgurGalleryModel(ImgurGalleryModel imgurGalleryModelList) {
-        this.imgurGalleryModel = imgurGalleryModelList;
+    public void setImgurBaseItemModel(List<ImgurBaseItemModel> imgurBaseItemModelList) {
+        this.imgurBaseItemModelList = imgurBaseItemModelList;
     }
 
     public void clear() {
-        if (imgurGalleryModel != null && imgurGalleryModel.getData() != null) {
-            imgurGalleryModel.getData().clear();
+        if (imgurBaseItemModelList != null && imgurBaseItemModelList != null) {
+            imgurBaseItemModelList.clear();
             notifyDataSetChanged();
         }
     }
 
     @Override
     public int getItemCount() {
-        if (imgurGalleryModel != null && imgurGalleryModel.getData() != null) {
-            return imgurGalleryModel.data.size();
+        if (imgurBaseItemModelList != null) {
+            return imgurBaseItemModelList.size();
         } else {
             return 0;
         }
     }
 
     public interface ItemClickListener {
-        void onItemClick(ImgurGalleryModel.Data image);
+        void onItemClick(ImgurBaseItemModel imgurBaseItemModel);
     }
 
     public static class ImgurViewHolder extends RecyclerView.ViewHolder {

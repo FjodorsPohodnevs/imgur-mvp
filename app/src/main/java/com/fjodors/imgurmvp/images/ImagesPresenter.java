@@ -1,5 +1,10 @@
 package com.fjodors.imgurmvp.images;
 
+import com.fjodors.imgurmvp.api.ImgurApiService;
+import com.fjodors.imgurmvp.api.ImgurApiClient;
+import com.fjodors.imgurmvp.api.responses.BaseResponse;
+import com.fjodors.imgurmvp.api.responses.GalleryResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,22 +23,22 @@ public class ImagesPresenter implements ImagesContract.Presenter {
 
     @Override
     public void callImgur() {
-        ImagesApiInterface apiService =
-                ImagesClient.getClient().create(ImagesApiInterface.class);
+        ImgurApiService apiService =
+                ImgurApiClient.getClient().create(ImgurApiService.class);
 
         //TODO: change to observable
-        Call<ImgurGalleryModel> call = apiService.getTopic("Rio_2016", "top", "1");
+        Call<GalleryResponse> call = apiService.getTopic("Rio_2016", "top", "1");
 
         //TODO: Implement rxJava here
-        call.enqueue(new Callback<ImgurGalleryModel>() {
+        call.enqueue(new Callback<GalleryResponse>() {
             @Override
-            public void onResponse(Call<ImgurGalleryModel> call, Response<ImgurGalleryModel> response) {
+            public void onResponse(Call<GalleryResponse> call, Response<GalleryResponse> response) {
                 imagesView.showGallery(response.body());
                 imagesView.hideProgress();
             }
 
             @Override
-            public void onFailure(Call<ImgurGalleryModel> call, Throwable t) {
+            public void onFailure(Call<GalleryResponse> call, Throwable t) {
                 imagesView.showError();
                 imagesView.hideProgress();
             }

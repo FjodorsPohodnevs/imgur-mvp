@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.fjodors.imgurmvp.R;
+import com.fjodors.imgurmvp.api.responses.BaseResponse;
+import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 import com.fjodors.imgurmvp.imagedetail.ImageDetailActivity;
+import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
@@ -69,9 +72,9 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
 
         ImagesRecyclerAdapter.ItemClickListener itemClickListener = new ImagesRecyclerAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(ImgurGalleryModel.Data image) {
+            public void onItemClick(ImgurBaseItemModel imgurBaseItemModel) {
                 Intent intent = new Intent(getActivity(), ImageDetailActivity.class);
-                intent.putExtra(IMAGE, image);
+                intent.putExtra(IMAGE, imgurBaseItemModel);
                 startActivity(intent);
             }
         };
@@ -86,9 +89,9 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
     }
 
     @Override
-    public void showGallery(ImgurGalleryModel imgurGalleryModel) {
+    public void showGallery(GalleryResponse galleryResponse) {
         imagesRecyclerAdapter.clear();
-        imagesRecyclerAdapter.setImgurGalleryModel(imgurGalleryModel);
+        imagesRecyclerAdapter.setImgurBaseItemModel(galleryResponse.getData());
         imagesRecyclerAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
     }

@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.images;
+package com.fjodors.imgurmvp.api;
 
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImagesClient {
+public class ImgurApiClient {
     public static final String API_BASE_URL = "https://api.imgur.com/3/";
 
     public static final String CLIENT_ID = "3a1f607e0fe2628";

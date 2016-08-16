@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.images.ImgurGalleryModel;
+import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
 import com.fjodors.imgurmvp.images.ImagesFragment;
 import com.fjodors.imgurmvp.util.ActivityUtils;
 
@@ -31,11 +31,11 @@ public class ImageDetailActivity extends AppCompatActivity {
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
-        ImgurGalleryModel.Data image = (ImgurGalleryModel.Data) getIntent().getSerializableExtra(ImagesFragment.IMAGE);
+        ImgurBaseItemModel imgurBaseItemModel = (ImgurBaseItemModel) getIntent().getSerializableExtra(ImagesFragment.IMAGE);
 
         ImageDetailFragment imageDetailFragment = ImageDetailFragment.newInstace();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ImagesFragment.IMAGE, image);
+        bundle.putSerializable(ImagesFragment.IMAGE, imgurBaseItemModel);
         imageDetailFragment.setArguments(bundle);
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), imageDetailFragment, R.id.contentFrame);
 
