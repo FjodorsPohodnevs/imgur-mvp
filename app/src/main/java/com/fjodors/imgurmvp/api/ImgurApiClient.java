@@ -1,6 +1,8 @@
 package com.fjodors.imgurmvp.api;
 
 
+import com.fjodors.imgurmvp.BuildConfig;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -15,8 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ImgurApiClient {
     public static final String API_BASE_URL = "https://api.imgur.com/3/";
 
-    public static final String CLIENT_ID = "3a1f607e0fe2628";
-    public static final String CLIENT_SECRET = "04ac4992adbe0f726e2d30ca2b839ebd9bac7823";
+    public static final String CLIENT_ID = BuildConfig.API_CLIENT_ID;
+    public static final String CLIENT_SECRET = BuildConfig.API_CLIENT_SECRET;
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     private static Retrofit retrofit = null;
 
@@ -26,7 +29,7 @@ public class ImgurApiClient {
         Interceptor interceptor = new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request newRequest = chain.request().newBuilder().addHeader("Authorization", "Client-id " + CLIENT_ID).build();
+                Request newRequest = chain.request().newBuilder().addHeader(AUTHORIZATION_HEADER, "Client-id " + CLIENT_ID).build();
                 return chain.proceed(newRequest);
             }
         };
