@@ -1,8 +1,7 @@
 package com.fjodors.imgurmvp.images;
 
-import com.fjodors.imgurmvp.api.ImgurApiService;
 import com.fjodors.imgurmvp.api.ImgurApiClient;
-import com.fjodors.imgurmvp.api.responses.BaseResponse;
+import com.fjodors.imgurmvp.api.ImgurApiService;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 
 import retrofit2.Call;
@@ -33,7 +32,11 @@ public class ImagesPresenter implements ImagesContract.Presenter {
         call.enqueue(new Callback<GalleryResponse>() {
             @Override
             public void onResponse(Call<GalleryResponse> call, Response<GalleryResponse> response) {
-                imagesView.showGallery(response.body());
+                if (response != null && response.body() != null && !response.body().data.isEmpty()) {
+                    imagesView.showGallery(response.body());
+                } else {
+                    imagesView.showError();
+                }
                 imagesView.hideProgress();
             }
 

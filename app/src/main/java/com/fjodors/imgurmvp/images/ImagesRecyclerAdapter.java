@@ -11,16 +11,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
+import com.fjodors.imgurmvp.models.ImgurAlbum;
+import com.fjodors.imgurmvp.models.ImgurBaseItem;
+import com.fjodors.imgurmvp.models.ImgurImage;
 
 import java.util.List;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAdapter.ImgurViewHolder> {
+public class ImagesRecyclerAdapter<T> extends RecyclerView.Adapter<ImagesRecyclerAdapter.ImgurViewHolder> {
 
-    private List<ImgurBaseItemModel> imgurBaseItemModelList;
+    private List<T> imgurBaseItemModelList;
     private Context context;
     private ItemClickListener itemClickListener;
 
@@ -41,37 +43,40 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
 
     @Override
     public void onBindViewHolder(final ImgurViewHolder holder, final int position) {
-
+        final ImgurBaseItem imgurBaseItem = (ImgurBaseItem) imgurBaseItemModelList.get(position);
         String thumbnailUrl;
         //TODO: uncomment and fix
-//        if (imgurBaseItemModelList.get(position).getCover() != null) {
-//            thumbnailUrl = "http://i.imgur.com/" + imgurBaseItemModelList.get(position).getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
-//        } else {
-//            thumbnailUrl = "http://i.imgur.com/" + imgurBaseItemModelList.get(position).getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
-//        }
-        thumbnailUrl = "http://i.imgur.com/" + imgurBaseItemModelList.get(position).getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+        if (imgurBaseItem instanceof ImgurAlbum) {
+            ImgurAlbum imgurAlbum = (ImgurAlbum) imgurBaseItem;
+            thumbnailUrl = "http://i.imgur.com/" + imgurAlbum.getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+        } else if (imgurBaseItem instanceof ImgurImage) {
+            ImgurImage imgurImage = (ImgurImage) imgurBaseItem;
+            thumbnailUrl = "http://i.imgur.com/" + imgurImage.getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+        } else {
+            thumbnailUrl = "http://i.imgur.com/" + imgurBaseItem.getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+        }
 
         Glide.with(context)
                 .load(thumbnailUrl)
                 .asBitmap()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(holder.imgurImg);
-        holder.title.setText(imgurBaseItemModelList.get(position).getTitle());
-        holder.score.setText("SCORE: " + imgurBaseItemModelList.get(position).getScore());
+        holder.title.setText(imgurBaseItem.getTitle());
+        holder.score.setText("SCORE: " + imgurBaseItem.getScore());
 
         holder.imageItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListener.onItemClick(imgurBaseItemModelList.get(position));
+                itemClickListener.onItemClick(imgurBaseItem);
             }
         });
     }
 
-    public List<ImgurBaseItemModel> getImgurBaseItemModelList() {
+    public List<T> getImgurBaseItemModelList() {
         return imgurBaseItemModelList;
     }
 
-    public void setImgurBaseItemModel(List<ImgurBaseItemModel> imgurBaseItemModelList) {
+    public void setImgurBaseItemModel(List<T> imgurBaseItemModelList) {
         this.imgurBaseItemModelList = imgurBaseItemModelList;
     }
 
@@ -92,7 +97,7 @@ public class ImagesRecyclerAdapter extends RecyclerView.Adapter<ImagesRecyclerAd
     }
 
     public interface ItemClickListener {
-        void onItemClick(ImgurBaseItemModel imgurBaseItemModel);
+        void onItemClick(ImgurBaseItem imgurBaseItem);
     }
 
     public static class ImgurViewHolder extends RecyclerView.ViewHolder {

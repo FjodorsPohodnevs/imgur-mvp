@@ -3,7 +3,7 @@ package com.fjodors.imgurmvp.imagedetail;
 import android.support.v4.app.Fragment;
 
 import com.fjodors.imgurmvp.images.ImagesFragment;
-import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
+import com.fjodors.imgurmvp.models.ImgurBaseItem;
 
 /**
  * Created by fjodors.pohodnevs on 8/11/2016.
@@ -21,18 +21,18 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter {
 
     @Override
     public void getImageUrl(Fragment fragment) {
-        ImgurBaseItemModel imgurBaseItemModel = (ImgurBaseItemModel) fragment.getArguments().getSerializable(ImagesFragment.IMAGE);
+        ImgurBaseItem imgurBaseItem = (ImgurBaseItem) fragment.getArguments().getSerializable(ImagesFragment.IMAGE);
         String imageUrl = "";
-        if (imgurBaseItemModel != null) {
+        if (imgurBaseItem != null) {
             //TODO: uncomment and fix
-//            if (imgurBaseItemModel.isAlbum() && imgurBaseItemModel.getCover() != null) {
+//            if (imgurBaseItem.isAlbum() && imgurBaseItem.getCover() != null) {
 //                //TODO: make request for gallery items from album
-//                imageUrl = "http://i.imgur.com/" + imgurBaseItemModel.getCover() + HUGE_IMAGE_THUMBNAIL + ".jpg";
+//                imageUrl = "http://i.imgur.com/" + imgurBaseItem.getCover() + HUGE_IMAGE_THUMBNAIL + ".jpg";
 //
 //            } else {
-//                imageUrl = imgurBaseItemModel.getLink();
+//                imageUrl = imgurBaseItem.getLink();
 //            }
-            imageUrl = imgurBaseItemModel.getLink();
+            imageUrl = imgurBaseItem.getLink();
         }
         imageDetailView.showImage(imageUrl);
     }

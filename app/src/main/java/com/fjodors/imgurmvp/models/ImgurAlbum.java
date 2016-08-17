@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImgurAlbumModel extends ImgurBaseItemModel {
+public class ImgurAlbum extends ImgurBaseItem {
     @SerializedName("cover")
     @Expose
     public String cover;
@@ -33,7 +33,7 @@ public class ImgurAlbumModel extends ImgurBaseItemModel {
     public int imagesCount;
     @SerializedName("images")
     @Expose
-    public List<ImgurImageModel> images = new ArrayList<>();
+    public List<ImgurImage> images = new ArrayList<>();
 
     public String getCover() {
         return cover;
@@ -67,7 +67,7 @@ public class ImgurAlbumModel extends ImgurBaseItemModel {
         return imagesCount;
     }
 
-    public List<ImgurImageModel> getImages() {
+    public List<ImgurImage> getImages() {
         return images;
     }
 }

@@ -1,8 +1,6 @@
 package com.fjodors.imgurmvp.api;
 
-import com.fjodors.imgurmvp.api.responses.BaseResponse;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
-import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

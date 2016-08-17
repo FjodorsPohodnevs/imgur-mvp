@@ -4,12 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImgurBaseItemModel implements Serializable {
+public class ImgurBaseItem implements Serializable {
     @SerializedName("id")
     @Expose
     public String id;

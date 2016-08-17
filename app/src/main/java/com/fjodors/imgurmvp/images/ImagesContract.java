@@ -3,7 +3,6 @@ package com.fjodors.imgurmvp.images;
 import com.fjodors.imgurmvp.BasePresenter;
 import com.fjodors.imgurmvp.BaseView;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
-import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.

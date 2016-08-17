@@ -12,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.api.responses.BaseResponse;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 import com.fjodors.imgurmvp.imagedetail.ImageDetailActivity;
-import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
+import com.fjodors.imgurmvp.models.ImgurBaseItem;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
@@ -72,7 +72,7 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
 
         ImagesRecyclerAdapter.ItemClickListener itemClickListener = new ImagesRecyclerAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(ImgurBaseItemModel imgurBaseItemModel) {
+            public void onItemClick(ImgurBaseItem imgurBaseItemModel) {
                 Intent intent = new Intent(getActivity(), ImageDetailActivity.class);
                 intent.putExtra(IMAGE, imgurBaseItemModel);
                 startActivity(intent);
@@ -98,6 +98,8 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
 
     @Override
     public void showError() {
+        //TODO: make material error response
+        Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
         refreshLayout.setRefreshing(false);
     }
 

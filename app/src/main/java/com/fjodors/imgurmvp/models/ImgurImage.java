@@ -3,7 +3,7 @@ package com.fjodors.imgurmvp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ImgurImageModel extends ImgurBaseItemModel {
+public class ImgurImage extends ImgurBaseItem {
     @SerializedName("type")
     @Expose
     public String type;

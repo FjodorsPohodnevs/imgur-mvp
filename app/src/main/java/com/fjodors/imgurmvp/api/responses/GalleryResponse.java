@@ -1,7 +1,6 @@
 package com.fjodors.imgurmvp.api.responses;
 
-import com.fjodors.imgurmvp.models.ImgurBaseItemModel;
-import com.fjodors.imgurmvp.models.ImgurImageModel;
+import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,9 +13,9 @@ public class GalleryResponse extends BaseResponse {
 
     @SerializedName("data")
     @Expose
-    public List<ImgurBaseItemModel> data;
+    public List<ImgurBaseItem> data;
 
-    public List<ImgurBaseItemModel> getData() {
+    public List<ImgurBaseItem> getData() {
         return data;
     }
 }
