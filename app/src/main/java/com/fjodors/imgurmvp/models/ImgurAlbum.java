@@ -31,8 +31,8 @@ public class ImgurAlbum extends ImgurBaseItem {
     @SerializedName("images_count")
     @Expose
     public int imagesCount;
-    @SerializedName("images")
-    @Expose
+//    @SerializedName("images")
+//    @Expose
     public List<ImgurImage> images = new ArrayList<>();
 
     public String getCover() {

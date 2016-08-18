@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.images;
+package com.fjodors.imgurmvp.gallery;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImagesRecyclerAdapter<T> extends RecyclerView.Adapter<ImagesRecyclerAdapter.ImgurViewHolder> {
+public class GalleryRecyclerAdapter<T> extends RecyclerView.Adapter<GalleryRecyclerAdapter.ImgurViewHolder> {
 
     private List<T> imgurBaseItemModelList;
     private Context context;
@@ -28,7 +28,7 @@ public class ImagesRecyclerAdapter<T> extends RecyclerView.Adapter<ImagesRecycle
 
     private static final String BIG_SQUARE_IMAGE_THUMBNAIL = "b";
 
-    public ImagesRecyclerAdapter(ItemClickListener itemClickListener) {
+    public GalleryRecyclerAdapter(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
@@ -43,8 +43,8 @@ public class ImagesRecyclerAdapter<T> extends RecyclerView.Adapter<ImagesRecycle
 
     @Override
     public void onBindViewHolder(final ImgurViewHolder holder, final int position) {
-        final ImgurBaseItem imgurBaseItem = (ImgurBaseItem) imgurBaseItemModelList.get(position);
-        String thumbnailUrl;
+        final ImgurBaseItem imgurBaseItem = (ImgurBaseItem)imgurBaseItemModelList.get(position);
+        String thumbnailUrl="";
         //TODO: uncomment and fix
         if (imgurBaseItem instanceof ImgurAlbum) {
             ImgurAlbum imgurAlbum = (ImgurAlbum) imgurBaseItem;
@@ -52,14 +52,13 @@ public class ImagesRecyclerAdapter<T> extends RecyclerView.Adapter<ImagesRecycle
         } else if (imgurBaseItem instanceof ImgurImage) {
             ImgurImage imgurImage = (ImgurImage) imgurBaseItem;
             thumbnailUrl = "http://i.imgur.com/" + imgurImage.getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
-        } else {
-            thumbnailUrl = "http://i.imgur.com/" + imgurBaseItem.getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
         }
 
         Glide.with(context)
                 .load(thumbnailUrl)
                 .asBitmap()
                 .placeholder(R.mipmap.ic_launcher)
+                .error(R.drawable.ic_block_black_48dp)
                 .into(holder.imgurImg);
         holder.title.setText(imgurBaseItem.getTitle());
         holder.score.setText("SCORE: " + imgurBaseItem.getScore());

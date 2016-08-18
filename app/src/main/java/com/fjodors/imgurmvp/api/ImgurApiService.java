@@ -1,6 +1,8 @@
 package com.fjodors.imgurmvp.api;
 
+import com.fjodors.imgurmvp.api.responses.AlbumResponse;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
+import com.fjodors.imgurmvp.api.responses.ImageResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,4 +16,7 @@ public interface ImgurApiService {
     Call<GalleryResponse> getTopic(@Path("topic_id") String topicId,
                                    @Path("sort") String sort,
                                    @Path("page") String page);
+
+    @GET("album/{id}/images")
+    Call<ImageResponse> getAlbumImages(@Path("id") String albumId);
 }

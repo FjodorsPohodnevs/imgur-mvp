@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.imagedetail;
+package com.fjodors.imgurmvp.imgurItemDetail.imageDetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
@@ -41,8 +42,19 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         Glide.with(getActivity())
                 .load(imageUrl)
-//                .placeholder(R.mipmap.ic_launcher)
+                .error(R.drawable.ic_block_black_48dp)
                 .into(imageView);
+    }
+
+    @Override
+    public void showError() {
+        //TODO: make material error response
+        Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 
     @Override

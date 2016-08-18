@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.images;
+package com.fjodors.imgurmvp.gallery;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,33 +16,33 @@ import android.widget.Toast;
 
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
-import com.fjodors.imgurmvp.imagedetail.ImageDetailActivity;
+import com.fjodors.imgurmvp.imgurItemDetail.ImgurItemDetailActivity;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImagesFragment extends Fragment implements ImagesContract.View {
+public class GalleryFragment extends Fragment implements GalleryContract.View {
 
-    private static final String TAG = ImagesFragment.class.getSimpleName();
+    private static final String TAG = GalleryFragment.class.getSimpleName();
 
     public static final String IMAGE = "IMAGE";
 
     private RecyclerView recyclerView;
-    private ImagesRecyclerAdapter imagesRecyclerAdapter;
+    private GalleryRecyclerAdapter galleryRecyclerAdapter;
     private SwipeRefreshLayout refreshLayout;
-    private ImagesContract.Presenter imgurPresenter;
+    private GalleryContract.Presenter imgurPresenter;
     private ProgressBar progressBar;
 
-    public static ImagesFragment newInstance() {
-        ImagesFragment imagesFragment = new ImagesFragment();
-        return imagesFragment;
+    public static GalleryFragment newInstance() {
+        GalleryFragment galleryFragment = new GalleryFragment();
+        return galleryFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_images, container, false);
+        final View view = inflater.inflate(R.layout.fragment_gallery, container, false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
@@ -51,13 +51,13 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                imgurPresenter.callImgur();
+                imgurPresenter.fetchGallery();
             }
         });
 
         initRecyclerView(view);
 
-        imgurPresenter.callImgur();
+        imgurPresenter.fetchGallery();
 
         return view;
     }
@@ -70,29 +70,29 @@ public class ImagesFragment extends Fragment implements ImagesContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        ImagesRecyclerAdapter.ItemClickListener itemClickListener = new ImagesRecyclerAdapter.ItemClickListener() {
+        GalleryRecyclerAdapter.ItemClickListener itemClickListener = new GalleryRecyclerAdapter.ItemClickListener() {
             @Override
             public void onItemClick(ImgurBaseItem imgurBaseItemModel) {
-                Intent intent = new Intent(getActivity(), ImageDetailActivity.class);
+                Intent intent = new Intent(getActivity(), ImgurItemDetailActivity.class);
                 intent.putExtra(IMAGE, imgurBaseItemModel);
                 startActivity(intent);
             }
         };
 
-        imagesRecyclerAdapter = new ImagesRecyclerAdapter(itemClickListener);
-        recyclerView.setAdapter(imagesRecyclerAdapter);
+        galleryRecyclerAdapter = new GalleryRecyclerAdapter(itemClickListener);
+        recyclerView.setAdapter(galleryRecyclerAdapter);
     }
 
     @Override
-    public void setPresenter(ImagesContract.Presenter presenter) {
+    public void setPresenter(GalleryContract.Presenter presenter) {
         imgurPresenter = presenter;
     }
 
     @Override
     public void showGallery(GalleryResponse galleryResponse) {
-        imagesRecyclerAdapter.clear();
-        imagesRecyclerAdapter.setImgurBaseItemModel(galleryResponse.getData());
-        imagesRecyclerAdapter.notifyDataSetChanged();
+        galleryRecyclerAdapter.clear();
+        galleryRecyclerAdapter.setImgurBaseItemModel(galleryResponse.getData());
+        galleryRecyclerAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
     }
 

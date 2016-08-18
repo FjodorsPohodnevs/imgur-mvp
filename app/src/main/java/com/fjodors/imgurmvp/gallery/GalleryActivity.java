@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.images;
+package com.fjodors.imgurmvp.gallery;
 
 
 import android.os.Bundle;
@@ -9,15 +9,15 @@ import android.support.v7.widget.Toolbar;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.util.ActivityUtils;
 
-public class ImagesActivity extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity {
 
-    ImagesPresenter imagesPresenter;
+    GalleryPresenter galleryPresenter;
     Toolbar myToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_images);
+        setContentView(R.layout.activity_gallery);
 
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -25,11 +25,11 @@ public class ImagesActivity extends AppCompatActivity {
         //TODO: set navigation drawer
         //....
 
-        ImagesContract.View imgurListFragment = ImagesFragment.newInstance();
+        GalleryContract.View imgurListFragment = GalleryFragment.newInstance();
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), (Fragment) imgurListFragment, R.id.contentFrame);
 
         //TODO: maybe inject Presenter(FOR TESTING PURPOSES)
-        imagesPresenter = new ImagesPresenter(imgurListFragment);
+        galleryPresenter = new GalleryPresenter(imgurListFragment);
 
         //TODO: loading previously saved instances
     }

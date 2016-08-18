@@ -2,6 +2,10 @@ package com.fjodors.imgurmvp.api;
 
 
 import com.fjodors.imgurmvp.BuildConfig;
+import com.fjodors.imgurmvp.models.ImgurBaseItem;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
@@ -42,10 +46,19 @@ public class ImgurApiClient {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(getConverter())
                     .client(client)
                     .build();
         }
         return retrofit;
+    }
+
+    private static GsonConverterFactory getConverter() {
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapter(ImgurBaseItem.class, new ImgurSerializer())
+                .create();
+
+        return GsonConverterFactory.create(gson);
     }
 }

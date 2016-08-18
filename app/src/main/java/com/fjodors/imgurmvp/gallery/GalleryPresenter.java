@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.images;
+package com.fjodors.imgurmvp.gallery;
 
 import com.fjodors.imgurmvp.api.ImgurApiClient;
 import com.fjodors.imgurmvp.api.ImgurApiService;
@@ -11,17 +11,17 @@ import retrofit2.Response;
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class ImagesPresenter implements ImagesContract.Presenter {
+public class GalleryPresenter implements GalleryContract.Presenter {
 
-    private ImagesContract.View imagesView;
+    private GalleryContract.View galleryView;
 
-    public ImagesPresenter(ImagesContract.View imagesView) {
-        this.imagesView = imagesView;
-        imagesView.setPresenter(this);
+    public GalleryPresenter(GalleryContract.View galleryView) {
+        this.galleryView = galleryView;
+        galleryView.setPresenter(this);
     }
 
     @Override
-    public void callImgur() {
+    public void fetchGallery() {
         ImgurApiService apiService =
                 ImgurApiClient.getClient().create(ImgurApiService.class);
 
@@ -33,17 +33,17 @@ public class ImagesPresenter implements ImagesContract.Presenter {
             @Override
             public void onResponse(Call<GalleryResponse> call, Response<GalleryResponse> response) {
                 if (response != null && response.body() != null && !response.body().data.isEmpty()) {
-                    imagesView.showGallery(response.body());
+                    galleryView.showGallery(response.body());
                 } else {
-                    imagesView.showError();
+                    galleryView.showError();
                 }
-                imagesView.hideProgress();
+                galleryView.hideProgress();
             }
 
             @Override
             public void onFailure(Call<GalleryResponse> call, Throwable t) {
-                imagesView.showError();
-                imagesView.hideProgress();
+                galleryView.showError();
+                galleryView.hideProgress();
             }
         });
     }

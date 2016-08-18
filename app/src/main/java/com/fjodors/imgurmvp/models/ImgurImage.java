@@ -24,7 +24,7 @@ public class ImgurImage extends ImgurBaseItem {
     public int commentCount;
     @SerializedName("bandwidth")
     @Expose
-    public int bandwidth;
+    public long bandwidth;
     @SerializedName("vote")
     @Expose
     public Object vote;
@@ -62,7 +62,7 @@ public class ImgurImage extends ImgurBaseItem {
         return commentCount;
     }
 
-    public int getBandwidth() {
+    public long getBandwidth() {
         return bandwidth;
     }
 
