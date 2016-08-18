@@ -50,8 +50,7 @@ public class AlbumDetailRecyclerAdapter<T> extends RecyclerView.Adapter<AlbumDet
                 .asBitmap()//TODO: fix gif later
                 .error(R.drawable.ic_block_black_48dp)
                 .fitCenter()
-                .into(holder.imgurImg)
-        ;
+                .into(holder.imgurImg);
     }
 
     public List<T> getImgurBaseItemModelList() {
