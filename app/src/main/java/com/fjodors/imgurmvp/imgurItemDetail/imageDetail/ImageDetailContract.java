@@ -18,6 +18,5 @@ public interface ImageDetailContract {
 
     interface Presenter extends BasePresenter {
         void getImageUrl(Fragment fragment);
-        void fetchAlbumsImages(String albumId);
     }
 }

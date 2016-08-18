@@ -12,6 +12,9 @@ import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Fjodors on 18.08.2016.
@@ -34,14 +37,24 @@ public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
         ImgurApiService apiService =
                 ImgurApiClient.getClient().create(ImgurApiService.class);
 
-        //TODO: change to observable
-        Call<ImageResponse> call = apiService.getAlbumImages(imgurAlbum.getId());
+        apiService.getAlbumImages(imgurAlbum.getId())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ImageResponse>() {
+                    @Override
+                    public void onCompleted() {
 
-        //TODO: Implement rxJava here
-        call.enqueue(new Callback<ImageResponse>() {
-            @Override
-            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
-                if (response != null && response.body() != null && !response.body().data.isEmpty()) {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        albumDetailView.showError();
+                        albumDetailView.hideProgress();
+                    }
+
+                    @Override
+                    public void onNext(ImageResponse imageResponse) {
+                        if (imageResponse != null && !imageResponse.data.isEmpty()) {
 //                    List<ImgurImage> imgurImages = response.body().data;
 //
 //                    String imageUrl = "";
@@ -51,19 +64,13 @@ public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
 //                    } else {
 //                        imageUrl = imgurImages.get(0).getLink();
 //                    }
-                    albumDetailView.showImage(response.body());
-                } else {
-                    albumDetailView.showError();
-                }
-                albumDetailView.hideProgress();
-            }
-
-            @Override
-            public void onFailure(Call<ImageResponse> call, Throwable t) {
-                albumDetailView.showError();
-                albumDetailView.hideProgress();
-            }
-        });
+                            albumDetailView.showImage(imageResponse);
+                        } else {
+                            albumDetailView.showError();
+                        }
+                        albumDetailView.hideProgress();
+                    }
+                });
     }
 
     @Override

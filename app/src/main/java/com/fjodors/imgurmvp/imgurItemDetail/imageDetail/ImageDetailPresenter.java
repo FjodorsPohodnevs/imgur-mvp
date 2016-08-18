@@ -35,59 +35,19 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter {
         ImgurBaseItem imgurBaseItem = (ImgurBaseItem) fragment.getArguments().getSerializable(GalleryFragment.IMAGE);
         String imageUrl = "";
         if (imgurBaseItem != null) {
-            if (imgurBaseItem instanceof ImgurAlbum) {
-                ImgurAlbum imgurAlbum = (ImgurAlbum) imgurBaseItem;
-                fetchAlbumsImages(imgurAlbum.getId());
-            } else if (imgurBaseItem instanceof ImgurImage) {
-                ImgurImage imgurImage = (ImgurImage) imgurBaseItem;
-                //TODO: need to change format to gifv/mp4(Glide is not supporting)
-                if (imgurImage.getType().equalsIgnoreCase("image/gif")) {
-                    imageUrl = "http://i.imgur.com/" + imgurImage.getId() + ".gif";
-                } else {
-                    imageUrl = imgurImage.getLink();
-                }
-                imageDetailView.showImage(imageUrl);
+            ImgurImage imgurImage = (ImgurImage) imgurBaseItem;
+            //TODO: need to change format to gifv/mp4(Glide is not supporting)
+            if (imgurImage.getType().equalsIgnoreCase("image/gif")) {
+                imageUrl = "http://i.imgur.com/" + imgurImage.getId() + ".gif";
+            } else {
+                imageUrl = imgurImage.getLink();
             }
+            imageDetailView.showImage(imageUrl);
+
         }
 
     }
 
-    @Override
-    public void fetchAlbumsImages(String albumId) {
-        ImgurApiService apiService =
-                ImgurApiClient.getClient().create(ImgurApiService.class);
-
-        //TODO: change to observable
-        Call<ImageResponse> call = apiService.getAlbumImages(albumId);
-
-        //TODO: Implement rxJava here
-        call.enqueue(new Callback<ImageResponse>() {
-            @Override
-            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
-                if (response != null && response.body() != null && !response.body().data.isEmpty()) {
-                    List<ImgurImage> imgurImages = response.body().data;
-
-                    String imageUrl = "";
-
-                    if (imgurImages.get(0).getType().equalsIgnoreCase("image/gif")) {
-                        imageUrl = "http://i.imgur.com/" + imgurImages.get(0).getId() + ".gif";
-                    } else {
-                        imageUrl = imgurImages.get(0).getLink();
-                    }
-                    imageDetailView.showImage(imageUrl);
-                } else {
-                    imageDetailView.showError();
-                }
-                imageDetailView.hideProgress();
-            }
-
-            @Override
-            public void onFailure(Call<ImageResponse> call, Throwable t) {
-                imageDetailView.showError();
-                imageDetailView.hideProgress();
-            }
-        });
-    }
 
     @Override
     public void start() {

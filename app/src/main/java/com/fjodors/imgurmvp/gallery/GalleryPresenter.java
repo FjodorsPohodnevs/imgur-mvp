@@ -1,5 +1,7 @@
 package com.fjodors.imgurmvp.gallery;
 
+import android.support.annotation.MainThread;
+
 import com.fjodors.imgurmvp.api.ImgurApiClient;
 import com.fjodors.imgurmvp.api.ImgurApiService;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
@@ -7,6 +9,10 @@ import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
@@ -25,27 +31,32 @@ public class GalleryPresenter implements GalleryContract.Presenter {
         ImgurApiService apiService =
                 ImgurApiClient.getClient().create(ImgurApiService.class);
 
-        //TODO: change to observable
-        Call<GalleryResponse> call = apiService.getMainGallery("hot", "viral", "1");
+        apiService.getMainGallery("hot", "viral", "1")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GalleryResponse>() {
 
-        //TODO: Implement rxJava here
-        call.enqueue(new Callback<GalleryResponse>() {
-            @Override
-            public void onResponse(Call<GalleryResponse> call, Response<GalleryResponse> response) {
-                if (response != null && response.body() != null && !response.body().data.isEmpty()) {
-                    galleryView.showGallery(response.body());
-                } else {
-                    galleryView.showError();
-                }
-                galleryView.hideProgress();
-            }
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<GalleryResponse> call, Throwable t) {
-                galleryView.showError();
-                galleryView.hideProgress();
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        galleryView.showError();
+                        galleryView.hideProgress();
+                    }
+
+                    @Override
+                    public void onNext(GalleryResponse galleryResponse) {
+                        if (galleryResponse != null && !galleryResponse.data.isEmpty()) {
+                            galleryView.showGallery(galleryResponse);
+                        } else {
+                            galleryView.showError();
+                        }
+                        galleryView.hideProgress();
+                    }
+                });
     }
 
     @Override
