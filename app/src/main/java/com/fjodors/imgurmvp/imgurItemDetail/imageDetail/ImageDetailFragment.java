@@ -42,6 +42,7 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         Glide.with(getActivity())
                 .load(imageUrl)
+                .asBitmap()//TODO: fix gif later
                 .error(R.drawable.ic_block_black_48dp)
                 .into(imageView);
     }

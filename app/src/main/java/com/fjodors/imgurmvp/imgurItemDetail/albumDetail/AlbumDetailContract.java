@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.fjodors.imgurmvp.BasePresenter;
 import com.fjodors.imgurmvp.BaseView;
+import com.fjodors.imgurmvp.api.responses.ImageResponse;
 
 /**
  * Created by Fjodors on 18.08.2016.
@@ -11,13 +12,12 @@ import com.fjodors.imgurmvp.BaseView;
 public interface AlbumDetailContract {
 
     interface View extends BaseView<Presenter> {
-        void showImage(String imageUrl);
+        void showImage(ImageResponse imageResponse);
         void showError();
         void hideProgress();
     }
 
     interface Presenter extends BasePresenter {
-        void getImageUrl(Fragment fragment);
-        void fetchAlbumsImages(String albumId);
+        void fetchAlbumsImages(Fragment fragment);
     }
 }

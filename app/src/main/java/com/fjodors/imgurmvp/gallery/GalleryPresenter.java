@@ -26,7 +26,7 @@ public class GalleryPresenter implements GalleryContract.Presenter {
                 ImgurApiClient.getClient().create(ImgurApiService.class);
 
         //TODO: change to observable
-        Call<GalleryResponse> call = apiService.getTopic("Rio_2016", "top", "1");
+        Call<GalleryResponse> call = apiService.getMainGallery("hot", "viral", "1");
 
         //TODO: Implement rxJava here
         call.enqueue(new Callback<GalleryResponse>() {
