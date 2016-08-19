@@ -25,9 +25,6 @@
                 android:layout_height="200dp"
                 android:layout_margin="5dp"
                 android:scaleType="fitStart" />
-
         </RelativeLayout>
-
     </android.support.v7.widget.CardView>
-
 </FrameLayout>

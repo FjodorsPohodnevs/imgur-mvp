@@ -9,28 +9,29 @@ import android.support.v7.widget.Toolbar;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.util.ActivityUtils;
 
-public class GalleryActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    GalleryPresenter galleryPresenter;
+public class GalleryActivity extends AppCompatActivity {
+    protected GalleryPresenter galleryPresenter;
+
+    @BindView(R.id.toolbar)
     Toolbar myToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+        ButterKnife.bind(this);
 
-        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         //TODO: set navigation drawer
-        //....
 
         GalleryContract.View imgurListFragment = GalleryFragment.newInstance();
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), (Fragment) imgurListFragment, R.id.contentFrame);
 
         //TODO: maybe inject Presenter(FOR TESTING PURPOSES)
         galleryPresenter = new GalleryPresenter(imgurListFragment);
-
-        //TODO: loading previously saved instances
     }
 }

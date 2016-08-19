@@ -7,8 +7,6 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,12 +29,9 @@ public class ImgurApiClient {
     public static Retrofit getClient() {
 
         // Define the interceptor, add authentication headers
-        Interceptor interceptor = new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request newRequest = chain.request().newBuilder().addHeader(AUTHORIZATION_HEADER, "Client-id " + API_CLIENT_ID).build();
-                return chain.proceed(newRequest);
-            }
+        Interceptor interceptor = chain -> {
+            Request newRequest = chain.request().newBuilder().addHeader(AUTHORIZATION_HEADER, "Client-id " + API_CLIENT_ID).build();
+            return chain.proceed(newRequest);
         };
 
         // Add the interceptor to OkHttpClient

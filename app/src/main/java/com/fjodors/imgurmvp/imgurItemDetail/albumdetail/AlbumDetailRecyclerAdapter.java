@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -14,16 +13,15 @@ import com.fjodors.imgurmvp.models.ImgurImage;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Fjodors on 18.08.2016.
  */
-public class AlbumDetailRecyclerAdapter<T> extends RecyclerView.Adapter<AlbumDetailRecyclerAdapter.ImgurViewHolder> {
-
-    private List<T> imgurBaseItemModelList;
+public class AlbumDetailRecyclerAdapter extends RecyclerView.Adapter<AlbumDetailRecyclerAdapter.ImgurViewHolder> {
+    private List imgurBaseItemModelList;
     private Context context;
-
-    public AlbumDetailRecyclerAdapter() {
-    }
 
     @Override
     public ImgurViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
@@ -37,7 +35,7 @@ public class AlbumDetailRecyclerAdapter<T> extends RecyclerView.Adapter<AlbumDet
     @Override
     public void onBindViewHolder(final ImgurViewHolder holder, final int position) {
         final ImgurImage imgurImage = (ImgurImage) imgurBaseItemModelList.get(position);
-        String imageUrl = "";
+        String imageUrl;
 
         if (imgurImage.getType().equalsIgnoreCase("image/gif")) {
             imageUrl = "http://i.imgur.com/" + imgurImage.getId() + ".gif";
@@ -50,19 +48,15 @@ public class AlbumDetailRecyclerAdapter<T> extends RecyclerView.Adapter<AlbumDet
                 .asBitmap()//TODO: fix gif later
                 .error(R.drawable.ic_block_black_48dp)
                 .fitCenter()
-                .into(holder.imgurImg);
+                .into(holder.image);
     }
 
-    public List<T> getImgurBaseItemModelList() {
-        return imgurBaseItemModelList;
-    }
-
-    public void setImgurBaseItemModel(List<T> imgurBaseItemModelList) {
+    public void setImgurBaseItemModel(List<ImgurImage> imgurBaseItemModelList) {
         this.imgurBaseItemModelList = imgurBaseItemModelList;
     }
 
     public void clear() {
-        if (imgurBaseItemModelList != null && imgurBaseItemModelList != null) {
+        if (imgurBaseItemModelList != null) {
             imgurBaseItemModelList.clear();
             notifyDataSetChanged();
         }
@@ -78,14 +72,13 @@ public class AlbumDetailRecyclerAdapter<T> extends RecyclerView.Adapter<AlbumDet
     }
 
     public static class ImgurViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public ImageView imgurImg;
-        public FrameLayout imageItemLayout;
+
+        @BindView(R.id.image)
+        public ImageView image;
 
         public ImgurViewHolder(View v) {
             super(v);
-            imageItemLayout = (FrameLayout) v;
-            imgurImg = (ImageView) v.findViewById(R.id.image);
+            ButterKnife.bind(this, v);
         }
     }
 }

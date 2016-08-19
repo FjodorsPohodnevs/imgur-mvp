@@ -8,8 +8,7 @@ import android.support.v4.app.FragmentTransaction;
  * Created by fjodors.pohodnevs on 8/11/2016.
  */
 public class ActivityUtils {
-
-    public static void addFragmentToActivity(FragmentManager fragmentManager, Fragment fragment, int frameId){
+    public static void addFragmentToActivity(FragmentManager fragmentManager, Fragment fragment, int frameId) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(frameId, fragment);
         fragmentTransaction.commit();

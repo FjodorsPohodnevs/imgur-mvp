@@ -7,29 +7,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
+import com.fjodors.imgurmvp.gallery.GalleryFragment;
+import com.fjodors.imgurmvp.models.ImgurBaseItem;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by fjodors.pohodnevs on 8/11/2016.
  */
 public class ImageDetailFragment extends Fragment implements ImageDetailContract.View {
-
     private ImageDetailContract.Presenter imageDetailPresenter;
-    private View view;
 
+    @BindView(R.id.image)
+    ImageView imageView;
 
-    public static ImageDetailFragment newInstace() {
+    public static ImageDetailFragment newInstace(ImgurBaseItem imgurBaseItem) {
         ImageDetailFragment imageDetailFragment = new ImageDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(GalleryFragment.IMAGE, imgurBaseItem);
+        imageDetailFragment.setArguments(bundle);
         return imageDetailFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_image_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
+        ButterKnife.bind(this, view);
 
         imageDetailPresenter.getImageUrl(this);
 
@@ -39,7 +47,6 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
 
     @Override
     public void showImage(String imageUrl) {
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
         Glide.with(getActivity())
                 .load(imageUrl)
                 .asBitmap()//TODO: fix gif later
@@ -47,16 +54,6 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
                 .into(imageView);
     }
 
-    @Override
-    public void showError() {
-        //TODO: make material error response
-        Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void hideProgress() {
-
-    }
 
     @Override
     public void setPresenter(ImageDetailContract.Presenter presenter) {

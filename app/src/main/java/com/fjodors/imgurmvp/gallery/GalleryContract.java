@@ -8,12 +8,9 @@ import com.fjodors.imgurmvp.api.responses.GalleryResponse;
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
 public interface GalleryContract {
-
     interface View extends BaseView<Presenter> {
         void showGallery(GalleryResponse galleryResponse);
-
         void showError();
-        void showProgress();
         void hideProgress();
     }
 

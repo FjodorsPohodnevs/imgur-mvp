@@ -14,42 +14,43 @@ import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.util.ActivityUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by fjodors.pohodnevs on 8/11/2016.
  */
 public class ImgurItemDetailActivity extends AppCompatActivity {
+    protected ImageDetailPresenter imageDetailPresenter;
+    protected AlbumDetailPresenter albumDetailPresenter;
 
-    ImageDetailPresenter imageDetailPresenter;
-    AlbumDetailPresenter albumDetailPresenter;
+    @BindView(R.id.toolbar)
+    Toolbar myToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
+        ButterKnife.bind(this);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
 
         // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
+        // Load fragment
         ImgurBaseItem imgurBaseItem = (ImgurBaseItem) getIntent().getSerializableExtra(GalleryFragment.IMAGE);
-
         if (imgurBaseItem.isAlbum()) {
-            AlbumDetailFragment albumDetailFragment = AlbumDetailFragment.newInstace();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(GalleryFragment.IMAGE, imgurBaseItem);
-            albumDetailFragment.setArguments(bundle);
+            AlbumDetailFragment albumDetailFragment = AlbumDetailFragment.newInstace(imgurBaseItem);
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), albumDetailFragment, R.id.contentFrame);
             albumDetailPresenter = new AlbumDetailPresenter(albumDetailFragment);
         } else {
-            ImageDetailFragment imageDetailFragment = ImageDetailFragment.newInstace();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(GalleryFragment.IMAGE, imgurBaseItem);
-            imageDetailFragment.setArguments(bundle);
+            ImageDetailFragment imageDetailFragment = ImageDetailFragment.newInstace(imgurBaseItem);
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), imageDetailFragment, R.id.contentFrame);
             imageDetailPresenter = new ImageDetailPresenter(imageDetailFragment);
         }

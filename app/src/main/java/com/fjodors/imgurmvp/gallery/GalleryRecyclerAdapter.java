@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -17,12 +16,14 @@ import com.fjodors.imgurmvp.models.ImgurImage;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class GalleryRecyclerAdapter<T> extends RecyclerView.Adapter<GalleryRecyclerAdapter.ImgurViewHolder> {
-
-    private List<T> imgurBaseItemModelList;
+public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecyclerAdapter.ImgurViewHolder> {
+    private List imgurBaseItemModelList;
     private Context context;
     private ItemClickListener itemClickListener;
 
@@ -43,9 +44,9 @@ public class GalleryRecyclerAdapter<T> extends RecyclerView.Adapter<GalleryRecyc
 
     @Override
     public void onBindViewHolder(final ImgurViewHolder holder, final int position) {
-        final ImgurBaseItem imgurBaseItem = (ImgurBaseItem)imgurBaseItemModelList.get(position);
-        String thumbnailUrl="";
-        //TODO: uncomment and fix
+        final ImgurBaseItem imgurBaseItem = (ImgurBaseItem) imgurBaseItemModelList.get(position);
+        String thumbnailUrl = "";
+
         if (imgurBaseItem instanceof ImgurAlbum) {
             ImgurAlbum imgurAlbum = (ImgurAlbum) imgurBaseItem;
             thumbnailUrl = "http://i.imgur.com/" + imgurAlbum.getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
@@ -63,27 +64,11 @@ public class GalleryRecyclerAdapter<T> extends RecyclerView.Adapter<GalleryRecyc
         holder.title.setText(imgurBaseItem.getTitle());
         holder.score.setText("SCORE: " + imgurBaseItem.getScore());
 
-        holder.imageItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                itemClickListener.onItemClick(imgurBaseItem);
-            }
-        });
+        holder.itemView.setOnClickListener(view -> itemClickListener.onItemClick(imgurBaseItem));
     }
 
-    public List<T> getImgurBaseItemModelList() {
-        return imgurBaseItemModelList;
-    }
-
-    public void setImgurBaseItemModel(List<T> imgurBaseItemModelList) {
+    public void setImgurBaseItemModel(List<ImgurBaseItem> imgurBaseItemModelList) {
         this.imgurBaseItemModelList = imgurBaseItemModelList;
-    }
-
-    public void clear() {
-        if (imgurBaseItemModelList != null && imgurBaseItemModelList != null) {
-            imgurBaseItemModelList.clear();
-            notifyDataSetChanged();
-        }
     }
 
     @Override
@@ -101,17 +86,16 @@ public class GalleryRecyclerAdapter<T> extends RecyclerView.Adapter<GalleryRecyc
 
     public static class ImgurViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        @BindView(R.id.image)
         public ImageView imgurImg;
+        @BindView(R.id.title)
         public TextView title;
+        @BindView(R.id.score)
         public TextView score;
-        public LinearLayout imageItemLayout;
 
         public ImgurViewHolder(View v) {
             super(v);
-            imageItemLayout = (LinearLayout) v;
-            imgurImg = (ImageView) v.findViewById(R.id.imgur_img);
-            title = (TextView) v.findViewById(R.id.title);
-            score = (TextView) v.findViewById(R.id.score);
+            ButterKnife.bind(this, v);
         }
     }
 }

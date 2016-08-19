@@ -17,22 +17,26 @@ import android.widget.Toast;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 import com.fjodors.imgurmvp.imgurItemDetail.ImgurItemDetailActivity;
-import com.fjodors.imgurmvp.models.ImgurBaseItem;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
 public class GalleryFragment extends Fragment implements GalleryContract.View {
-
-    private static final String TAG = GalleryFragment.class.getSimpleName();
-
     public static final String IMAGE = "IMAGE";
 
-    private RecyclerView recyclerView;
+    @BindView(R.id.album_image_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout refreshLayout;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     private GalleryRecyclerAdapter galleryRecyclerAdapter;
-    private SwipeRefreshLayout refreshLayout;
+
     private GalleryContract.Presenter imgurPresenter;
-    private ProgressBar progressBar;
 
     public static GalleryFragment newInstance() {
         GalleryFragment galleryFragment = new GalleryFragment();
@@ -43,40 +47,30 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_gallery, container, false);
+        ButterKnife.bind(this, view);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                imgurPresenter.fetchGallery();
-            }
-        });
-
-        initRecyclerView(view);
-
-        imgurPresenter.fetchGallery();
-
+        refreshLayout.setOnRefreshListener(() -> imgurPresenter.fetchGallery());
+        initRecyclerView();
         return view;
     }
 
-    private void initRecyclerView(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.imgur_recycler_view);
+    @Override
+    public void onResume() {
+        super.onResume();
+        imgurPresenter.start();
+    }
 
+    private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        GalleryRecyclerAdapter.ItemClickListener itemClickListener = new GalleryRecyclerAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(ImgurBaseItem imgurBaseItemModel) {
-                Intent intent = new Intent(getActivity(), ImgurItemDetailActivity.class);
-                intent.putExtra(IMAGE, imgurBaseItemModel);
-                startActivity(intent);
-            }
+        GalleryRecyclerAdapter.ItemClickListener itemClickListener = imgurBaseItemModel -> {
+            Intent intent = new Intent(getActivity(), ImgurItemDetailActivity.class);
+            intent.putExtra(IMAGE, imgurBaseItemModel);
+            startActivity(intent);
         };
 
         galleryRecyclerAdapter = new GalleryRecyclerAdapter(itemClickListener);
@@ -90,7 +84,6 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
 
     @Override
     public void showGallery(GalleryResponse galleryResponse) {
-        galleryRecyclerAdapter.clear();
         galleryRecyclerAdapter.setImgurBaseItemModel(galleryResponse.getData());
         galleryRecyclerAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
@@ -101,11 +94,6 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
         //TODO: make material error response
         Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
         refreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
