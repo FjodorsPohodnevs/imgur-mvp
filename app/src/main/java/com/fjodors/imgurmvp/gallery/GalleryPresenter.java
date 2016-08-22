@@ -1,5 +1,6 @@
 package com.fjodors.imgurmvp.gallery;
 
+import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.ImgurApiClient;
 import com.fjodors.imgurmvp.api.ImgurApiService;
 
@@ -34,15 +35,13 @@ public class GalleryPresenter implements GalleryContract.Presenter {
         apiService.getMainGallery(MAIN_GALLERY_DEFAULT_SECTION, MAIN_GALLERY_DEFAULT_SORT, MAIN_GALLERY_DEFAULT_PAGE, true)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnTerminate(() -> galleryView.hideProgress())
                 .subscribe(galleryResponse -> {
                     if (galleryResponse != null && !galleryResponse.data.isEmpty()) {
                         galleryView.showGallery(galleryResponse);
                     } else {
-                        galleryView.showError();
+                        galleryView.showError(new Throwable(((GalleryFragment) galleryView).getString(R.string.error_no_data)));
                     }
-                }, e -> {
-                    galleryView.showError();
-                    galleryView.hideProgress();
-                }, () -> galleryView.hideProgress());
+                }, e -> galleryView.showError(e));
     }
 }

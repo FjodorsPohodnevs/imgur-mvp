@@ -20,6 +20,9 @@ import butterknife.ButterKnife;
  * Created by Fjodors on 18.08.2016.
  */
 public class AlbumDetailRecyclerAdapter extends RecyclerView.Adapter<AlbumDetailRecyclerAdapter.ImgurViewHolder> {
+    private static final String IMAGE_FORMAT_GIF = ".gif";
+    private static final String IMGUR_URL = "http://i.imgur.com/";
+
     private List imgurBaseItemModelList;
     private Context context;
 
@@ -38,7 +41,7 @@ public class AlbumDetailRecyclerAdapter extends RecyclerView.Adapter<AlbumDetail
         String imageUrl;
 
         if (imgurImage.getType().equalsIgnoreCase("image/gif")) {
-            imageUrl = "http://i.imgur.com/" + imgurImage.getId() + ".gif";
+            imageUrl = IMGUR_URL + imgurImage.getId() + IMAGE_FORMAT_GIF;
         } else {
             imageUrl = imgurImage.getLink();
         }
@@ -53,13 +56,6 @@ public class AlbumDetailRecyclerAdapter extends RecyclerView.Adapter<AlbumDetail
 
     public void setImgurBaseItemModel(List<ImgurImage> imgurBaseItemModelList) {
         this.imgurBaseItemModelList = imgurBaseItemModelList;
-    }
-
-    public void clear() {
-        if (imgurBaseItemModelList != null) {
-            imgurBaseItemModelList.clear();
-            notifyDataSetChanged();
-        }
     }
 
     @Override

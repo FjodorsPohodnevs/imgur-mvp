@@ -53,8 +53,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
     }
 
     @Override
-    public void showImage(ImageResponse imageResponse) {
-        albumDetailRecyclerAdapter.clear();
+    public void showAlbumsImages(ImageResponse imageResponse) {
         albumDetailRecyclerAdapter.setImgurBaseItemModel(imageResponse.getData());
         albumDetailRecyclerAdapter.notifyDataSetChanged();
     }
@@ -71,9 +70,8 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
     }
 
     @Override
-    public void showError() {
-        //TODO: make material error response
-        Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
+    public void showError(Throwable e) {
+        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

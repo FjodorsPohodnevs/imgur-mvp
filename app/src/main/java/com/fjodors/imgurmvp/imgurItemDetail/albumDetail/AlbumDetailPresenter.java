@@ -1,5 +1,6 @@
 package com.fjodors.imgurmvp.imgurItemDetail.albumDetail;
 
+import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.ImgurApiClient;
 import com.fjodors.imgurmvp.api.ImgurApiService;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
@@ -30,16 +31,14 @@ public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
             apiService.getAlbumImages(imgurAlbum.getId())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnTerminate(() -> albumDetailView.hideProgress())
                     .subscribe(imageResponse -> {
                         if (imageResponse != null && !imageResponse.data.isEmpty()) {
-                            albumDetailView.showImage(imageResponse);
+                            albumDetailView.showAlbumsImages(imageResponse);
                         } else {
-                            albumDetailView.showError();
+                            albumDetailView.showError(new Throwable(((AlbumDetailFragment) albumDetailView).getString(R.string.error_no_data)));
                         }
-                    }, e -> {
-                        albumDetailView.showError();
-                        albumDetailView.hideProgress();
-                    }, () -> albumDetailView.hideProgress());
+                    }, e -> albumDetailView.showError(e));
         }
     }
 

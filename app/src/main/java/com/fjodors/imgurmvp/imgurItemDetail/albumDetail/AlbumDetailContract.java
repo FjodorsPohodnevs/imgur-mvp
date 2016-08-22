@@ -9,9 +9,9 @@ import com.fjodors.imgurmvp.api.responses.ImageResponse;
  */
 public interface AlbumDetailContract {
     interface View extends BaseView<Presenter> {
-        void showImage(ImageResponse imageResponse);
+        void showAlbumsImages(ImageResponse imageResponse);
 
-        void showError();
+        void showError(Throwable e);
 
         void hideProgress();
     }

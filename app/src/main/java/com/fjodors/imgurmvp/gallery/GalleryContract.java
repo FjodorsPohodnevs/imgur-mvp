@@ -10,7 +10,9 @@ import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 public interface GalleryContract {
     interface View extends BaseView<Presenter> {
         void showGallery(GalleryResponse galleryResponse);
-        void showError();
+
+        void showError(Throwable e);
+
         void hideProgress();
     }
 

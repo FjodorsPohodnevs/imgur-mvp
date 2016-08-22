@@ -87,9 +87,8 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
     }
 
     @Override
-    public void showError() {
-        //TODO: make material error response
-        Toast.makeText(getActivity(), "Failed to load data", Toast.LENGTH_SHORT).show();
+    public void showError(Throwable e) {
+        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         refreshLayout.setRefreshing(false);
     }
 

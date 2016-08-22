@@ -23,11 +23,13 @@ import butterknife.ButterKnife;
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
 public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecyclerAdapter.ImgurViewHolder> {
+    private static final String BIG_SQUARE_IMAGE_THUMBNAIL = "b";
+    private static final String IMAGE_FORMAT_JPG = ".jpg";
+    private static final String IMGUR_URL = "http://i.imgur.com/";
+
     private List imgurBaseItemModelList;
     private Context context;
     private ItemClickListener itemClickListener;
-
-    private static final String BIG_SQUARE_IMAGE_THUMBNAIL = "b";
 
     public GalleryRecyclerAdapter(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -49,10 +51,10 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
 
         if (imgurBaseItem instanceof ImgurAlbum) {
             ImgurAlbum imgurAlbum = (ImgurAlbum) imgurBaseItem;
-            thumbnailUrl = "http://i.imgur.com/" + imgurAlbum.getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+            thumbnailUrl = IMGUR_URL + imgurAlbum.getCover() + BIG_SQUARE_IMAGE_THUMBNAIL + IMAGE_FORMAT_JPG;
         } else if (imgurBaseItem instanceof ImgurImage) {
             ImgurImage imgurImage = (ImgurImage) imgurBaseItem;
-            thumbnailUrl = "http://i.imgur.com/" + imgurImage.getId() + BIG_SQUARE_IMAGE_THUMBNAIL + ".jpg";
+            thumbnailUrl = IMGUR_URL + imgurImage.getId() + BIG_SQUARE_IMAGE_THUMBNAIL + IMAGE_FORMAT_JPG;
         }
 
         Glide.with(context)
@@ -62,7 +64,8 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
                 .error(R.drawable.ic_block_black_48dp)
                 .into(holder.imgurImg);
         holder.title.setText(imgurBaseItem.getTitle());
-        holder.score.setText("SCORE: " + imgurBaseItem.getScore());
+        String points = imgurBaseItem.getScore() + " " + context.getString(R.string.points);
+        holder.score.setText(points);
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onItemClick(imgurBaseItem));
     }

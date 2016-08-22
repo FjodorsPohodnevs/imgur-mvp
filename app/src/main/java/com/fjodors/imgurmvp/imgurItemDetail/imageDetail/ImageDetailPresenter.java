@@ -8,9 +8,10 @@ import com.fjodors.imgurmvp.models.ImgurImage;
  * Created by fjodors.pohodnevs on 8/11/2016.
  */
 public class ImageDetailPresenter implements ImageDetailContract.Presenter {
-    private ImageDetailContract.View imageDetailView;
+    private static final String IMAGE_FORMAT_GIF = ".gif";
+    private static final String IMGUR_URL = "http://i.imgur.com/";
 
-    private static final String HUGE_IMAGE_THUMBNAIL = "h";
+    private ImageDetailContract.View imageDetailView;
 
     public ImageDetailPresenter(ImageDetailContract.View imageDetailView) {
         this.imageDetailView = imageDetailView;
@@ -30,7 +31,7 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter {
             ImgurImage imgurImage = (ImgurImage) imgurBaseItem;
             //TODO: need to change format to gifv/mp4(Glide is not supporting)
             if (imgurImage.getType().equalsIgnoreCase("image/gif")) {
-                imageUrl = "http://i.imgur.com/" + imgurImage.getId() + ".gif";
+                imageUrl = IMGUR_URL + imgurImage.getId() + IMAGE_FORMAT_GIF;
             } else {
                 imageUrl = imgurImage.getLink();
             }
