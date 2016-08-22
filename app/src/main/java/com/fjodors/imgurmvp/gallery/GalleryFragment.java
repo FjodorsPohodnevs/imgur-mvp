@@ -52,13 +52,10 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         refreshLayout.setOnRefreshListener(() -> imgurPresenter.fetchGallery());
         initRecyclerView();
-        return view;
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
         imgurPresenter.start();
+
+        return view;
     }
 
     private void initRecyclerView() {

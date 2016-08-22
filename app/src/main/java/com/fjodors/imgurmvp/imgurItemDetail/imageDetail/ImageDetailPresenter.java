@@ -1,7 +1,5 @@
 package com.fjodors.imgurmvp.imgurItemDetail.imageDetail;
 
-import android.support.v4.app.Fragment;
-
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import com.fjodors.imgurmvp.models.ImgurImage;
@@ -21,12 +19,13 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter {
 
     @Override
     public void start() {
+        getImageUrl();
     }
 
     @Override
-    public void getImageUrl(Fragment fragment) {
-        ImgurBaseItem imgurBaseItem = (ImgurBaseItem) fragment.getArguments().getSerializable(GalleryFragment.IMAGE);
-        String imageUrl = "";
+    public void getImageUrl() {
+        ImgurBaseItem imgurBaseItem = (ImgurBaseItem) ((ImageDetailFragment) imageDetailView).getArguments().getSerializable(GalleryFragment.IMAGE);
+        String imageUrl;
         if (imgurBaseItem != null) {
             ImgurImage imgurImage = (ImgurImage) imgurBaseItem;
             //TODO: need to change format to gifv/mp4(Glide is not supporting)

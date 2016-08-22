@@ -1,7 +1,5 @@
 package com.fjodors.imgurmvp.imgurItemDetail.albumDetail;
 
-import android.support.v4.app.Fragment;
-
 import com.fjodors.imgurmvp.BasePresenter;
 import com.fjodors.imgurmvp.BaseView;
 import com.fjodors.imgurmvp.api.responses.ImageResponse;
@@ -19,6 +17,6 @@ public interface AlbumDetailContract {
     }
 
     interface Presenter extends BasePresenter {
-        void fetchAlbumsImages(Fragment fragment);
+        void fetchAlbumsImages();
     }
 }

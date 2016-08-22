@@ -46,7 +46,7 @@ public class ImgurItemDetailActivity extends AppCompatActivity {
         // Load fragment
         ImgurBaseItem imgurBaseItem = (ImgurBaseItem) getIntent().getSerializableExtra(GalleryFragment.IMAGE);
         if (imgurBaseItem.isAlbum()) {
-            AlbumDetailFragment albumDetailFragment = AlbumDetailFragment.newInstace(imgurBaseItem);
+            AlbumDetailFragment albumDetailFragment = AlbumDetailFragment.newInstance(imgurBaseItem);
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), albumDetailFragment, R.id.contentFrame);
             albumDetailPresenter = new AlbumDetailPresenter(albumDetailFragment);
         } else {

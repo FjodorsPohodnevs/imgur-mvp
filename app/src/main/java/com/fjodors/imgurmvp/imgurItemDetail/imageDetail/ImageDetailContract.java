@@ -1,7 +1,5 @@
 package com.fjodors.imgurmvp.imgurItemDetail.imageDetail;
 
-import android.support.v4.app.Fragment;
-
 import com.fjodors.imgurmvp.BasePresenter;
 import com.fjodors.imgurmvp.BaseView;
 
@@ -14,6 +12,6 @@ public interface ImageDetailContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getImageUrl(Fragment fragment);
+        void getImageUrl();
     }
 }

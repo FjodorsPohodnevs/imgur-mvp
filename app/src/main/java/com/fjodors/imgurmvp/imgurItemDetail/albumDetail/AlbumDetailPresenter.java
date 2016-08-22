@@ -1,12 +1,9 @@
 package com.fjodors.imgurmvp.imgurItemDetail.albumDetail;
 
-import android.support.v4.app.Fragment;
-
 import com.fjodors.imgurmvp.api.ImgurApiClient;
 import com.fjodors.imgurmvp.api.ImgurApiService;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.models.ImgurAlbum;
-import com.fjodors.imgurmvp.models.ImgurBaseItem;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -23,9 +20,8 @@ public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
     }
 
     @Override
-    public void fetchAlbumsImages(Fragment fragment) {
-        ImgurBaseItem imgurBaseItem = (ImgurBaseItem) fragment.getArguments().getSerializable(GalleryFragment.IMAGE);
-        ImgurAlbum imgurAlbum = (ImgurAlbum) imgurBaseItem;
+    public void fetchAlbumsImages() {
+        ImgurAlbum imgurAlbum = (ImgurAlbum) ((AlbumDetailFragment) albumDetailView).getArguments().getSerializable(GalleryFragment.IMAGE);
 
         ImgurApiService apiService =
                 ImgurApiClient.getClient().create(ImgurApiService.class);
@@ -49,5 +45,6 @@ public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
 
     @Override
     public void start() {
+        fetchAlbumsImages();
     }
 }

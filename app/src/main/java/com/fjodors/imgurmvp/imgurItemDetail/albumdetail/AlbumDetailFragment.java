@@ -31,7 +31,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    public static AlbumDetailFragment newInstace(ImgurBaseItem imgurBaseItem) {
+    public static AlbumDetailFragment newInstance(ImgurBaseItem imgurBaseItem) {
         AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(GalleryFragment.IMAGE, imgurBaseItem);
@@ -47,7 +47,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
 
         initRecyclerView();
 
-        albumDetailPresenter.fetchAlbumsImages(this);
+        albumDetailPresenter.start();
 
         return view;
     }

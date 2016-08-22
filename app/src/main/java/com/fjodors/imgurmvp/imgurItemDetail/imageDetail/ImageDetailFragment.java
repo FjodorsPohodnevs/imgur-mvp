@@ -39,11 +39,10 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
         View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
         ButterKnife.bind(this, view);
 
-        imageDetailPresenter.getImageUrl(this);
+        imageDetailPresenter.getImageUrl();
 
         return view;
     }
-
 
     @Override
     public void showImage(String imageUrl) {
