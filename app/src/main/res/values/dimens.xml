@@ -1,5 +1,25 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--Toolbar-->
+    <dimen name="elevation_toolbar">4dp</dimen>
+
+    <!--CardView-->
+    <dimen name="elevation_cardview">4dp</dimen>
+
+    <!--Navigation drawer-->
+    <dimen name="height_navigation_drawer_head">192dp</dimen>
+    <dimen name="padding_navigation_drawer_head">16dp</dimen>
+
+    <!--Album images-->
+    <dimen name="height_album_image">200dp</dimen>
+    <dimen name="margin_album_image">5dp</dimen>
+
+    <!--Gallery-->
+    <dimen name="height_gallery_image">80dp</dimen>
+    <dimen name="width_gallery_image">80dp</dimen>
+    <dimen name="margin_gallery_image">5dp</dimen>
+
+    <dimen name="margin_bottom_gallery_image_title">10dp</dimen>
+    <dimen name="margin_top_gallery_image_title">10dp</dimen>
+
+    <dimen name="margin_gallery_image_score">10dp</dimen>
 </resources>

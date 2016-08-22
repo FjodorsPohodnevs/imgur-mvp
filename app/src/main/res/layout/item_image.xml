@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="@dimen/elevation_cardview">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,10 +23,10 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/width_gallery_image"
+                android:layout_height="@dimen/height_gallery_image"
                 android:layout_alignParentRight="true"
-                android:layout_margin="5dp" />
+                android:layout_margin="@dimen/margin_gallery_image" />
 
             <TextView
                 android:id="@+id/title"
@@ -34,8 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/score"
                 android:layout_alignStart="@+id/score"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/margin_bottom_gallery_image_title"
+                android:layout_marginTop="@dimen/margin_top_gallery_image_title"
                 android:layout_toLeftOf="@+id/image"
                 tools:text="Title is testing" />
 
@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                tools:text="SCORE: 5" />
+                android:layout_margin="@dimen/margin_gallery_image_score"
+                tools:text="5 points" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
