@@ -5,5 +5,5 @@
     <string name="points">points</string>
 
     <!--Error Messages-->
-    <string name="error_no_data">No data available</string>
+    <string name="error_message_no_data">No data available</string>
 </resources>

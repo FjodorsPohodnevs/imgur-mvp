@@ -36,7 +36,7 @@ public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
                         if (imageResponse != null && !imageResponse.data.isEmpty()) {
                             albumDetailView.showAlbumsImages(imageResponse);
                         } else {
-                            albumDetailView.showError(new Throwable(((AlbumDetailFragment) albumDetailView).getString(R.string.error_no_data)));
+                            albumDetailView.showError(new Throwable(((AlbumDetailFragment) albumDetailView).getString(R.string.error_message_no_data)));
                         }
                     }, e -> albumDetailView.showError(e));
         }

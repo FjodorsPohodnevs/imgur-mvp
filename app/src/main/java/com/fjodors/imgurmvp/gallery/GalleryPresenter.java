@@ -40,7 +40,7 @@ public class GalleryPresenter implements GalleryContract.Presenter {
                     if (galleryResponse != null && !galleryResponse.data.isEmpty()) {
                         galleryView.showGallery(galleryResponse);
                     } else {
-                        galleryView.showError(new Throwable(((GalleryFragment) galleryView).getString(R.string.error_no_data)));
+                        galleryView.showError(new Throwable(((GalleryFragment) galleryView).getString(R.string.error_message_no_data)));
                     }
                 }, e -> galleryView.showError(e));
     }
