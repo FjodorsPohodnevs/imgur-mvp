@@ -1,7 +1,6 @@
 package com.fjodors.imgurmvp.imgurItemDetail.albumDetail;
 
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.api.ImgurApiClient;
 import com.fjodors.imgurmvp.api.ImgurApiService;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.models.ImgurAlbum;
@@ -24,22 +23,23 @@ public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
     public void fetchAlbumsImages() {
         ImgurAlbum imgurAlbum = (ImgurAlbum) ((AlbumDetailFragment) albumDetailView).getArguments().getSerializable(GalleryFragment.IMAGE);
 
-        ImgurApiService apiService =
-                ImgurApiClient.getClient().create(ImgurApiService.class);
+        //todo: inject retrofit
+//        ImgurApiService apiService =
+//                ImgurApiClient.getClient().create(ImgurApiService.class);
 
-        if (imgurAlbum != null) {
-            apiService.getAlbumImages(imgurAlbum.getId())
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnTerminate(() -> albumDetailView.hideProgress())
-                    .subscribe(imageResponse -> {
-                        if (imageResponse != null && !imageResponse.data.isEmpty()) {
-                            albumDetailView.showAlbumsImages(imageResponse);
-                        } else {
-                            albumDetailView.showError(new Throwable(((AlbumDetailFragment) albumDetailView).getString(R.string.error_message_no_data)));
-                        }
-                    }, e -> albumDetailView.showError(e));
-        }
+//        if (imgurAlbum != null) {
+//            apiService.getAlbumImages(imgurAlbum.getId())
+//                    .subscribeOn(Schedulers.newThread())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .doOnTerminate(() -> albumDetailView.hideProgress())
+//                    .subscribe(imageResponse -> {
+//                        if (imageResponse != null && !imageResponse.data.isEmpty()) {
+//                            albumDetailView.showAlbumsImages(imageResponse);
+//                        } else {
+//                            albumDetailView.showError(new Throwable(((AlbumDetailFragment) albumDetailView).getString(R.string.error_message_no_data)));
+//                        }
+//                    }, e -> albumDetailView.showError(e));
+//        }
     }
 
     @Override

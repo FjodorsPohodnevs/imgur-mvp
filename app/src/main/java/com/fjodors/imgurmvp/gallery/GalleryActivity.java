@@ -16,9 +16,6 @@ import butterknife.ButterKnife;
 
 public class GalleryActivity extends AppCompatActivity {
 
-    @Inject
-    protected GalleryPresenter galleryPresenter;
-
     @BindView(R.id.toolbar)
     Toolbar myToolbar;
 
@@ -34,8 +31,5 @@ public class GalleryActivity extends AppCompatActivity {
 
         GalleryContract.View imgurListFragment = GalleryFragment.newInstance();
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), (Fragment) imgurListFragment, R.id.contentFrame);
-
-        //TODO: maybe inject Presenter(FOR TESTING PURPOSES)
-//        galleryPresenter = new GalleryPresenter(imgurListFragment);
     }
 }

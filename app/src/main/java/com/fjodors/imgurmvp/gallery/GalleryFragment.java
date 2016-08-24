@@ -18,6 +18,8 @@ import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 import com.fjodors.imgurmvp.imgurItemDetail.ImgurItemDetailActivity;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,11 +38,11 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
 
     private GalleryRecyclerAdapter galleryRecyclerAdapter;
 
-    private GalleryContract.Presenter imgurPresenter;
+    @Inject
+    GalleryContract.Presenter galleryPresenter;
 
     public static GalleryFragment newInstance() {
-        GalleryFragment galleryFragment = new GalleryFragment();
-        return galleryFragment;
+        return new GalleryFragment();
     }
 
     @Nullable
@@ -49,11 +51,16 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
         final View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         ButterKnife.bind(this, view);
 
+        DaggerGalleryComponent.builder()
+
+                .galleryModule(new GalleryModule())
+                .build().inject(this);
+
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
-        refreshLayout.setOnRefreshListener(() -> imgurPresenter.fetchGallery());
+        refreshLayout.setOnRefreshListener(() -> galleryPresenter.fetchGallery());
         initRecyclerView();
 
-        imgurPresenter.start();
+        galleryPresenter.start();
 
 
         return view;
@@ -77,7 +84,7 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
 
     @Override
     public void setPresenter(GalleryContract.Presenter presenter) {
-        imgurPresenter = presenter;
+        galleryPresenter = presenter;
     }
 
     @Override

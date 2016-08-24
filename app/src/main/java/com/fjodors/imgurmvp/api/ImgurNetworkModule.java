@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.api.dependencyInjection;
+package com.fjodors.imgurmvp.api;
 
 import com.fjodors.imgurmvp.BuildConfig;
 import com.fjodors.imgurmvp.api.ImgurApiService;
@@ -67,11 +67,4 @@ public class ImgurNetworkModule {
                 .client(okHttpClient)
                 .build();
     }
-
-    @Provides
-    @Singleton
-    public ImgurApiService provideImgurApiService(Retrofit retrofit) {
-        return retrofit.create(ImgurApiService.class);
-    }
-
 }
