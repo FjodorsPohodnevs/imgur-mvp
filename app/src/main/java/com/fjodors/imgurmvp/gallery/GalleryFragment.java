@@ -55,6 +55,7 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
 
         imgurPresenter.start();
 
+
         return view;
     }
 

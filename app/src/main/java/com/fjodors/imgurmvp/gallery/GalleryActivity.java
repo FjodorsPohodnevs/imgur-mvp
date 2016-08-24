@@ -9,10 +9,14 @@ import android.support.v7.widget.Toolbar;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.util.ActivityUtils;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GalleryActivity extends AppCompatActivity {
+
+    @Inject
     protected GalleryPresenter galleryPresenter;
 
     @BindView(R.id.toolbar)
@@ -32,6 +36,6 @@ public class GalleryActivity extends AppCompatActivity {
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), (Fragment) imgurListFragment, R.id.contentFrame);
 
         //TODO: maybe inject Presenter(FOR TESTING PURPOSES)
-        galleryPresenter = new GalleryPresenter(imgurListFragment);
+//        galleryPresenter = new GalleryPresenter(imgurListFragment);
     }
 }
