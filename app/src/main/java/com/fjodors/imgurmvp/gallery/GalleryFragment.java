@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.fjodors.imgurmvp.App;
+import com.fjodors.imgurmvp.ImgurApp;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 import com.fjodors.imgurmvp.imgurItemDetail.ImgurItemDetailActivity;
@@ -53,9 +53,9 @@ public class GalleryFragment extends Fragment implements GalleryContract.View, G
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.get(getActivity())
-                .getAppComponent()
-                .plus(new GalleryModule(this, (GalleryActivity)getActivity()))
+        ImgurApp.get(getActivity())
+                .getImgurAppComponent()
+                .newGallerySubComponent(new GalleryModule(this, (GalleryActivity)getActivity()))
                 .inject(this);
     }
 

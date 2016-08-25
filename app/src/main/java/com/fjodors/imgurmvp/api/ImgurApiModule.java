@@ -1,5 +1,7 @@
 package com.fjodors.imgurmvp.api;
 
+import android.app.Application;
+
 import com.fjodors.imgurmvp.BuildConfig;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import com.google.gson.FieldNamingPolicy;
@@ -10,6 +12,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -55,9 +58,18 @@ public class ImgurApiModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkHttpClient(Interceptor interceptor) {
+    public Cache provideOkHttpCache(Application application) {
+        int cacheSize = 10 * 1024 * 1024; // 10 MiB
+        Cache cache = new Cache(application.getCacheDir(), cacheSize);
+        return cache;
+    }
+
+    @Provides
+    @Singleton
+    public OkHttpClient provideOkHttpClient(Interceptor interceptor, Cache cache) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.interceptors().add(interceptor);
+        builder.cache(cache)
+                .interceptors().add(interceptor);
         return builder.build();
     }
 

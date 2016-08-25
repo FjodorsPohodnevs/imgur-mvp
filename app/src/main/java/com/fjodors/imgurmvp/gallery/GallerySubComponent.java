@@ -9,7 +9,7 @@ import dagger.Subcomponent;
  */
 @FragmentScope
 @Subcomponent(modules = GalleryModule.class)
-public interface GalleryComponent {
+public interface GallerySubComponent {
     void inject(GalleryFragment galleryFragment);
 }
 

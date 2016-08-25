@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.fjodors.imgurmvp.App;
+import com.fjodors.imgurmvp.ImgurApp;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.responses.ImageResponse;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
@@ -47,9 +47,9 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.get(getActivity())
-                .getAppComponent()
-                .plus(new AlbumDetailModule(this))
+        ImgurApp.get(getActivity())
+                .getImgurAppComponent()
+                .newAlbumDetailSubComponent(new AlbumDetailModule(this))
                 .inject(this);
     }
 

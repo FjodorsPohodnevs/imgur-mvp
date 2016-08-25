@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.fjodors.imgurmvp.App;
+import com.fjodors.imgurmvp.ImgurApp;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
@@ -41,9 +41,9 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.get(getActivity())
-                .getAppComponent()
-                .plus(new ImageDetailModule(this))
+        ImgurApp.get(getActivity())
+                .getImgurAppComponent()
+                .newImageDetailSubComponent(new ImageDetailModule(this))
                 .inject(this);
     }
 

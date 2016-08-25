@@ -9,6 +9,6 @@ import dagger.Subcomponent;
  */
 @FragmentScope
 @Subcomponent(modules = ImageDetailModule.class)
-public interface ImageDetailComponent {
+public interface ImageDetailSubComponent {
     void inject(ImageDetailFragment imageDetailFragment);
 }
