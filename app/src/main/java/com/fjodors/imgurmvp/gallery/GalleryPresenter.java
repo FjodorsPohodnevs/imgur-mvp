@@ -1,45 +1,26 @@
 package com.fjodors.imgurmvp.gallery;
 
 import com.fjodors.imgurmvp.R;
-import com.fjodors.imgurmvp.api.ImgurApiService;
+import com.fjodors.imgurmvp.api.ImgurManager;
 
 import javax.inject.Inject;
-
-import retrofit2.Retrofit;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
 public class GalleryPresenter implements GalleryContract.Presenter {
-    private static final String MAIN_GALLERY_DEFAULT_SECTION = "hot";
-    private static final String MAIN_GALLERY_DEFAULT_SORT = "viral";
-    private static final String MAIN_GALLERY_DEFAULT_PAGE = "1";
-
     private GalleryContract.View galleryView;
-
-    Retrofit retrofit;
-
-    ImgurApiService imgurApiService;
+    private ImgurManager imgurManager;
 
     @Inject
-    public GalleryPresenter(Retrofit retrofit) {
-        this.retrofit = retrofit;
-        galleryView.setPresenter(this);
-    }
-
-    @Override
-    public void start() {
-        fetchGallery();
+    public GalleryPresenter(ImgurManager imgurManager, GalleryContract.View galleryView) {
+        this.galleryView = galleryView;
+        this.imgurManager = imgurManager;
     }
 
     @Override
     public void fetchGallery() {
-        imgurApiService = retrofit.create(ImgurApiService.class);
-        imgurApiService.getMainGallery(MAIN_GALLERY_DEFAULT_SECTION, MAIN_GALLERY_DEFAULT_SORT, MAIN_GALLERY_DEFAULT_PAGE, true)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        imgurManager.getMainGallery()
                 .doOnTerminate(() -> galleryView.hideProgress())
                 .subscribe(galleryResponse -> {
                     if (galleryResponse != null && !galleryResponse.data.isEmpty()) {

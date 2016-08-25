@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.fjodors.imgurmvp.App;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.responses.GalleryResponse;
 import com.fjodors.imgurmvp.imgurItemDetail.ImgurItemDetailActivity;
+import com.fjodors.imgurmvp.models.ImgurBaseItem;
 
 import javax.inject.Inject;
 
@@ -26,7 +28,8 @@ import butterknife.ButterKnife;
 /**
  * Created by fjodors.pohodnevs on 8/10/2016.
  */
-public class GalleryFragment extends Fragment implements GalleryContract.View {
+public class GalleryFragment extends Fragment implements GalleryContract.View, GalleryRecyclerAdapter.ItemClickListener {
+
     public static final String IMAGE = "IMAGE";
 
     @BindView(R.id.album_image_recycler_view)
@@ -36,55 +39,45 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    private GalleryRecyclerAdapter galleryRecyclerAdapter;
-
+    @Inject
+    GalleryRecyclerAdapter galleryRecyclerAdapter;
     @Inject
     GalleryContract.Presenter galleryPresenter;
+    @Inject
+    LinearLayoutManager linearLayoutManager;
 
     public static GalleryFragment newInstance() {
         return new GalleryFragment();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.get(getActivity())
+                .getAppComponent()
+                .plus(new GalleryModule(this, (GalleryActivity)getActivity()))
+                .inject(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_gallery, container, false);
+        View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         ButterKnife.bind(this, view);
-
-        DaggerGalleryComponent.builder()
-
-                .galleryModule(new GalleryModule())
-                .build().inject(this);
 
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         refreshLayout.setOnRefreshListener(() -> galleryPresenter.fetchGallery());
         initRecyclerView();
 
-        galleryPresenter.start();
-
+        galleryPresenter.fetchGallery();
 
         return view;
     }
 
     private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        GalleryRecyclerAdapter.ItemClickListener itemClickListener = imgurBaseItemModel -> {
-            Intent intent = new Intent(getActivity(), ImgurItemDetailActivity.class);
-            intent.putExtra(IMAGE, imgurBaseItemModel);
-            startActivity(intent);
-        };
-
-        galleryRecyclerAdapter = new GalleryRecyclerAdapter(itemClickListener);
         recyclerView.setAdapter(galleryRecyclerAdapter);
-    }
-
-    @Override
-    public void setPresenter(GalleryContract.Presenter presenter) {
-        galleryPresenter = presenter;
     }
 
     @Override
@@ -103,5 +96,12 @@ public class GalleryFragment extends Fragment implements GalleryContract.View {
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onItemClick(ImgurBaseItem imgurBaseItem) {
+        Intent intent = new Intent(getActivity(), ImgurItemDetailActivity.class);
+        intent.putExtra(IMAGE, imgurBaseItem);
+        startActivity(intent);
     }
 }

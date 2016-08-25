@@ -1,8 +1,6 @@
 package com.fjodors.imgurmvp.api;
 
 import com.fjodors.imgurmvp.BuildConfig;
-import com.fjodors.imgurmvp.api.ImgurApiService;
-import com.fjodors.imgurmvp.api.ImgurSerializer;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -23,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by fjodors.pohodnevs on 8/22/2016.
  */
 @Module
-public class ImgurNetworkModule {
+public class ImgurApiModule {
 
     public static final String API_BASE_URL = "https://api.imgur.com/3/";
 
@@ -33,10 +31,16 @@ public class ImgurNetworkModule {
 
     @Provides
     @Singleton
-    public Gson provideGson() {
+    public ImgurSerializer provideImgurSerializer() {
+        return new ImgurSerializer();
+    }
+
+    @Provides
+    @Singleton
+    public Gson provideGson(ImgurSerializer imgurSerializer) {
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(ImgurBaseItem.class, new ImgurSerializer());
+                .registerTypeAdapter(ImgurBaseItem.class, imgurSerializer);
         return gsonBuilder.create();
     }
 
@@ -67,4 +71,17 @@ public class ImgurNetworkModule {
                 .client(okHttpClient)
                 .build();
     }
+
+    @Provides
+    @Singleton
+    public ImgurApiService provideImgurApiService(Retrofit retrofit) {
+        return retrofit.create(ImgurApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    ImgurManager provideImgurManager(ImgurApiService imgurApiService) {
+        return new ImgurManager(imgurApiService);
+    }
+
 }

@@ -1,8 +1,9 @@
 package com.fjodors.imgurmvp.imgurItemDetail.imageDetail;
 
-import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import com.fjodors.imgurmvp.models.ImgurImage;
+
+import javax.inject.Inject;
 
 /**
  * Created by fjodors.pohodnevs on 8/11/2016.
@@ -13,19 +14,13 @@ public class ImageDetailPresenter implements ImageDetailContract.Presenter {
 
     private ImageDetailContract.View imageDetailView;
 
+    @Inject
     public ImageDetailPresenter(ImageDetailContract.View imageDetailView) {
         this.imageDetailView = imageDetailView;
-        imageDetailView.setPresenter(this);
     }
 
     @Override
-    public void start() {
-        getImageUrl();
-    }
-
-    @Override
-    public void getImageUrl() {
-        ImgurBaseItem imgurBaseItem = (ImgurBaseItem) ((ImageDetailFragment) imageDetailView).getArguments().getSerializable(GalleryFragment.IMAGE);
+    public void getImageUrl(ImgurBaseItem imgurBaseItem) {
         String imageUrl;
         if (imgurBaseItem != null) {
             ImgurImage imgurImage = (ImgurImage) imgurBaseItem;

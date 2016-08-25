@@ -16,6 +16,8 @@ import com.fjodors.imgurmvp.models.ImgurImage;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -31,6 +33,7 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
     private Context context;
     private ItemClickListener itemClickListener;
 
+    @Inject
     public GalleryRecyclerAdapter(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }

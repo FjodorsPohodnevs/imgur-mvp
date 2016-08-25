@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.fjodors.imgurmvp.App;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.api.responses.ImageResponse;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
+import com.fjodors.imgurmvp.models.ImgurAlbum;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +27,8 @@ import butterknife.ButterKnife;
  * Created by Fjodors on 18.08.2016.
  */
 public class AlbumDetailFragment extends Fragment implements AlbumDetailContract.View {
-    private AlbumDetailContract.Presenter albumDetailPresenter;
+    @Inject
+    AlbumDetailContract.Presenter albumDetailPresenter;
     private AlbumDetailRecyclerAdapter albumDetailRecyclerAdapter;
 
     @BindView(R.id.album_image_recycler_view)
@@ -39,6 +44,15 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
         return albumDetailFragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.get(getActivity())
+                .getAppComponent()
+                .plus(new AlbumDetailModule(this))
+                .inject(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,7 +61,10 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
 
         initRecyclerView();
 
-        albumDetailPresenter.start();
+        ImgurAlbum imgurAlbum = (ImgurAlbum) getArguments().getSerializable(GalleryFragment.IMAGE);
+        if (imgurAlbum != null) {
+            albumDetailPresenter.fetchAlbumsImages(imgurAlbum.getId());
+        }
 
         return view;
     }
@@ -77,10 +94,5 @@ public class AlbumDetailFragment extends Fragment implements AlbumDetailContract
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void setPresenter(AlbumDetailContract.Presenter presenter) {
-        albumDetailPresenter = presenter;
     }
 }

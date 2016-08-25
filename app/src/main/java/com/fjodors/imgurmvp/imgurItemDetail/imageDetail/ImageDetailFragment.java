@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.fjodors.imgurmvp.App;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +23,9 @@ import butterknife.ButterKnife;
  * Created by fjodors.pohodnevs on 8/11/2016.
  */
 public class ImageDetailFragment extends Fragment implements ImageDetailContract.View {
-    private ImageDetailContract.Presenter imageDetailPresenter;
+
+    @Inject
+    ImageDetailContract.Presenter imageDetailPresenter;
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -33,13 +38,23 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
         return imageDetailFragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.get(getActivity())
+                .getAppComponent()
+                .plus(new ImageDetailModule(this))
+                .inject(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
         ButterKnife.bind(this, view);
 
-        imageDetailPresenter.getImageUrl();
+        ImgurBaseItem imgurBaseItem = (ImgurBaseItem) getArguments().getSerializable(GalleryFragment.IMAGE);
+        imageDetailPresenter.getImageUrl(imgurBaseItem);
 
         return view;
     }
@@ -51,11 +66,5 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
                 .asBitmap()//TODO: fix gif later
                 .error(R.drawable.ic_block_black_48dp)
                 .into(imageView);
-    }
-
-
-    @Override
-    public void setPresenter(ImageDetailContract.Presenter presenter) {
-        imageDetailPresenter = presenter;
     }
 }
