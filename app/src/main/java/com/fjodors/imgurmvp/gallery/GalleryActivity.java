@@ -27,7 +27,8 @@ public class GalleryActivity extends AppCompatActivity {
 
         setSupportActionBar(myToolbar);
 
-        //TODO: set navigation drawer
+        //TODO: Implement search in toolbar for topic search functionality
+        //TODO: set navigation drawer with account info(oAuth stuff)
 
         GalleryContract.View imgurListFragment = GalleryFragment.newInstance();
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), (Fragment) imgurListFragment, R.id.contentFrame);

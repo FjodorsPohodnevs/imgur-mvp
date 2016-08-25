@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.models.ImgurImage;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class AlbumDetailRecyclerAdapter extends RecyclerView.Adapter<AlbumDetail
 
     @Override
     public ImgurViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_image, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
 
         context = parent.getContext();
 
@@ -46,11 +46,11 @@ public class AlbumDetailRecyclerAdapter extends RecyclerView.Adapter<AlbumDetail
             imageUrl = imgurImage.getLink();
         }
 
-        Glide.with(context)
+        Picasso.with(context)
                 .load(imageUrl)
-                .asBitmap()//TODO: fix gif later
                 .error(R.drawable.ic_block_black_48dp)
-                .fitCenter()
+                .fit()
+                .centerInside()
                 .into(holder.image);
     }
 

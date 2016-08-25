@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.ImgurApp;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.gallery.GalleryFragment;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -61,10 +61,11 @@ public class ImageDetailFragment extends Fragment implements ImageDetailContract
 
     @Override
     public void showImage(String imageUrl) {
-        Glide.with(getActivity())
+        Picasso.with(getActivity())
                 .load(imageUrl)
-                .asBitmap()//TODO: fix gif later
                 .error(R.drawable.ic_block_black_48dp)
+                .fit()
+                .centerInside()
                 .into(imageView);
     }
 }

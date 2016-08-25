@@ -65,6 +65,8 @@ public class GalleryFragment extends Fragment implements GalleryContract.View, G
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         ButterKnife.bind(this, view);
 
+        //TODO: implement infinity scroll with pagination
+
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         refreshLayout.setOnRefreshListener(() -> galleryPresenter.fetchGallery());
         initRecyclerView();

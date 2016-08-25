@@ -10,7 +10,7 @@
     <dimen name="padding_navigation_drawer_head">16dp</dimen>
 
     <!--Album images-->
-    <dimen name="height_album_image">200dp</dimen>
+    <dimen name="height_album_image">300dp</dimen>
     <dimen name="margin_album_image">5dp</dimen>
 
     <!--Gallery-->

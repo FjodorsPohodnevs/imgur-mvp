@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.fjodors.imgurmvp.R;
 import com.fjodors.imgurmvp.models.ImgurAlbum;
 import com.fjodors.imgurmvp.models.ImgurBaseItem;
 import com.fjodors.imgurmvp.models.ImgurImage;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
 
     @Override
     public ImgurViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery, parent, false);
 
         context = parent.getContext();
 
@@ -60,11 +60,11 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
             thumbnailUrl = IMGUR_URL + imgurImage.getId() + BIG_SQUARE_IMAGE_THUMBNAIL + IMAGE_FORMAT_JPG;
         }
 
-        Glide.with(context)
+        Picasso.with(context)
                 .load(thumbnailUrl)
-                .asBitmap()
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.drawable.ic_block_black_48dp)
+                .fit()
                 .into(holder.imgurImg);
         holder.title.setText(imgurBaseItem.getTitle());
         String points = imgurBaseItem.getScore() + " " + context.getString(R.string.points);

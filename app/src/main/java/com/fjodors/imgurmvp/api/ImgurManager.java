@@ -22,6 +22,8 @@ public class ImgurManager {
         this.imgurApiService = imgurApiService;
     }
 
+    //TODO: implement more functional operators for data processing
+
     public Observable<GalleryResponse> getMainGallery() {
         return imgurApiService.getMainGallery(MAIN_GALLERY_DEFAULT_SECTION, MAIN_GALLERY_DEFAULT_SORT, MAIN_GALLERY_DEFAULT_PAGE, true)
                 .subscribeOn(Schedulers.newThread())
