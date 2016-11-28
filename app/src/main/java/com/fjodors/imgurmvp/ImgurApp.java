@@ -3,6 +3,10 @@ package com.fjodors.imgurmvp;
 import android.app.Application;
 import android.content.Context;
 
+import com.fjodors.imgurmvp.injection.components.DaggerImgurAppComponent;
+import com.fjodors.imgurmvp.injection.components.ImgurAppComponent;
+import com.fjodors.imgurmvp.injection.modules.ImgurAppModule;
+
 /**
  * Created by fjodors.pohodnevs on 8/25/2016.
  */

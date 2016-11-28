@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".gallery.GalleryActivity">
+        <activity android:name=".presentation.gallery.GalleryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".imgurItemDetail.ImgurItemDetailActivity"
-            android:parentActivityName=".gallery.GalleryActivity" />
+            android:name=".presentation.imgurItemDetail.ImgurItemDetailActivity"
+            android:parentActivityName=".presentation.gallery.GalleryActivity" />
     </application>
 
 </manifest>
