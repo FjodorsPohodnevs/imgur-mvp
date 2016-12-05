@@ -15,6 +15,10 @@ public class GalleryResponse extends BaseResponse {
     @Expose
     public List<ImgurBaseItem> data;
 
+    public GalleryResponse(List<ImgurBaseItem> data) {
+        this.data = data;
+    }
+
     public List<ImgurBaseItem> getData() {
         return data;
     }

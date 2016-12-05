@@ -1,7 +1,5 @@
-package com.fjodors.imgurmvp;
+package com.fjodors.imgurmvp.presentation;
 
-import com.fjodors.imgurmvp.data.GalleryRepository;
-import com.fjodors.imgurmvp.data.remote.ImgurApiService;
 import com.fjodors.imgurmvp.presentation.gallery.GalleryContract;
 import com.fjodors.imgurmvp.presentation.gallery.GalleryPresenter;
 
@@ -19,18 +17,18 @@ public class GalleryPresenterTest {
     private static final String MAIN_GALLERY_DEFAULT_SORT = "viral";
     private static final String MAIN_GALLERY_DEFAULT_PAGE = "1";
 
-    @Mock
-    GalleryRepository galleryRepository;
-
-    @Mock
-    GalleryContract.View galleryView;
-
-    private GalleryContract.Presenter galleryPresenter;
-
-    @Before
-    public void setUp() {
-        this.galleryPresenter = new GalleryPresenter(galleryRepository);//TODO: which is better imgur api manager or api
-    }
+//    @Mock
+//    GalleryRepositoryTest galleryRepositoryTest;
+//
+//    @Mock
+//    GalleryContract.View galleryView;
+//
+//    private GalleryContract.Presenter galleryPresenter;
+//
+//    @Before
+//    public void setUp() {
+//        this.galleryPresenter = new GalleryPresenter(galleryRepositoryTest);//TODO: which is better imgur api manager or api
+//    }
 
     /**
      * 1.Handle empty list

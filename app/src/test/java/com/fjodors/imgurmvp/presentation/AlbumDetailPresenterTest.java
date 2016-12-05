@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp;
+package com.fjodors.imgurmvp.presentation;
 
 public class AlbumDetailPresenterTest {
 }

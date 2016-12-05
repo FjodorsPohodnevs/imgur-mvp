@@ -1,14 +1,15 @@
-package com.fjodors.imgurmvp.presentation.imgurItemDetail.imageDetail;
+package com.fjodors.imgurmvp.presentation.imageDetail;
 
 import com.fjodors.imgurmvp.model.ImgurBaseItem;
 import com.fjodors.imgurmvp.model.ImgurImage;
+import com.fjodors.imgurmvp.presentation.base.BasePresenter;
 
 import javax.inject.Inject;
 
 /**
  * Created by fjodors.pohodnevs on 8/11/2016.
  */
-public class ImageDetailPresenter implements ImageDetailContract.Presenter {
+public class ImageDetailPresenter extends BasePresenter<ImageDetailContract.View> implements ImageDetailContract.Presenter {
     private static final String IMAGE_FORMAT_GIF = ".gif";
     private static final String IMGUR_URL = "http://i.imgur.com/";
 

@@ -1,4 +1,4 @@
-package com.fjodors.imgurmvp.presentation.imgurItemDetail.albumDetail;
+package com.fjodors.imgurmvp.presentation.albumDetail;
 
 import com.fjodors.imgurmvp.data.remote.model.ImageResponse;
 import com.fjodors.imgurmvp.presentation.base.MvpPresenter;

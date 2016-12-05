@@ -16,8 +16,6 @@ public class AlbumRepository {
     }
 
     public Observable<ImageResponse> getAlbumImages(String albumId) {
-        return imgurApiService.getAlbumImages(albumId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        return imgurApiService.getAlbumImages(albumId);
     }
 }
